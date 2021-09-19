@@ -1,6 +1,5 @@
 package com.hungteen.craid.common.command;
 
-import com.hungteen.craid.common.raid.RaidManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -20,13 +19,19 @@ public class CRaidCommand {
         		.executes((command) -> {
         			return addRaid(command.getSource(), StringArgumentType.getString(command, "type"), BlockPosArgument.getLoadedBlockPos(command, "pos"));
         		}))));
+        builder.then(Commands.literal("list")
+        		.then(Commands.literal("all")
+        		.executes((command) -> {
+        			return showAllRaid(command.getSource());
+        		})));
         dispatcher.register(builder);
     }
 	
 	public static int addRaid(CommandSource source, String type, BlockPos pos) {
-		RaidManager.RAID_MAP.forEach((res, raid) -> {
-//			System.out.println(raid);
-		});
+		return 1;
+	}
+	
+	public static int showAllRaid(CommandSource source) {
 		return 1;
 	}
 	
