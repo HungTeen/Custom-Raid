@@ -1,0 +1,31 @@
+{
+  "name":"test",
+  "waves":[
+    {
+      "spawns":[
+        {
+          "entity_type":"zombie",
+          "count":10
+        },
+        {
+          "entity_type":"creeper",
+          "count":10
+        }
+      ],
+      "duration":1200
+    },
+    {
+      "spawns":[
+        {
+          "entity_type":"skeleton",
+          "count":10
+        },
+        {
+          "entity_type":"spider",
+          "count":10
+        }
+      ],
+      "duration":1200
+    }
+  ]
+}

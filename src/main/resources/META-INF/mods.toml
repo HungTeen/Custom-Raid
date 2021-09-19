@@ -1,0 +1,26 @@
+modLoader="javafml" 
+license="GNU LESSER GENERAL PUBLIC LICENSE" 
+loaderVersion="[36,)" 
+#issueTrackerURL="https://github.com/HungTeen/pvzmod/issues"
+
+[[mods]]
+modId="craid"
+version="0.1"
+displayName="Custom Raid"
+authors="_HungTeen_" 
+#logoFile="logo.png" 
+displayURL="https://space.bilibili.com/362855464" 
+credits="Nope" 
+description="help players make custom raids easily"
+
+[[dependencies.craid]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36.1.0,)"
+    
+[[dependencies.craid]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16,)"
+    ordering="NONE"
+    side="BOTH"
