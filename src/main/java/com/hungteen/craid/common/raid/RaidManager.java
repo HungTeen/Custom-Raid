@@ -1,15 +1,75 @@
 package com.hungteen.craid.common.raid;
 
-import com.hungteen.craid.common.world.RaidData;
+import java.util.Map;
 
+import javax.annotation.Nullable;
+
+import com.google.common.collect.Maps;
+import com.hungteen.craid.CRaid;
+import com.hungteen.craid.api.ISpawnAmount;
+import com.hungteen.craid.common.impl.CRaidAPIImpl;
+import com.hungteen.craid.common.world.WorldRaidData;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class RaidManager {
 
+	public static final Map<ResourceLocation, RaidComponent> RAID_MAP = Maps.newHashMap();
+	public static final Map<String, Class<? extends ISpawnAmount>> AMOUNT_MAP = Maps.newHashMap();
+	
 	public static void tickRaids(World world) {
 		if(! world.isClientSide) {
-			final RaidData data = RaidData.getInvasionData(world);
+			final WorldRaidData data = WorldRaidData.getInvasionData(world);
 			data.tick();
 		}
 	}
+	
+	public static void createRaid(ServerWorld world, ResourceLocation res, BlockPos pos) {
+		final WorldRaidData data = WorldRaidData.getInvasionData(world);
+		data.createRaid(world, res, pos);
+	}
+	
+	public static boolean isRaider(ServerWorld world, Entity entity) {
+		final WorldRaidData data = WorldRaidData.getInvasionData(world);
+		for(Raid raid : data.getRaids()) {
+			if(raid.isRaider(entity)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Nullable
+	public static RaidComponent getRaidContent(ResourceLocation res) {
+		return RAID_MAP.getOrDefault(res, null);
+	}
+	
+	/**
+	 * {@link CRaidAPIImpl#registerSpawnAmount(String, Class)}
+	 */
+	public static void registerSpawnAmount(String name, Class<? extends ISpawnAmount> c) {
+		if(AMOUNT_MAP.containsKey(name)) {
+			CRaid.LOGGER.warn("Register Spawn Amount : duplicate name, overwrited.");
+		}
+		AMOUNT_MAP.put(name, c);
+	}
+	
+	@Nullable
+	public static ISpawnAmount getSpawnAmount(String name) {
+		if(! AMOUNT_MAP.containsKey(name)) {
+			CRaid.LOGGER.warn("Spawn Amount Missing : can not find {}", name);
+			return null;
+		}
+		try {
+			return AMOUNT_MAP.get(name).newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

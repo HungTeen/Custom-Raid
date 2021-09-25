@@ -5,7 +5,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.hungteen.craid.common.command.CRaidCommand;
+import com.hungteen.craid.common.impl.amount.ConstantSpawn;
+import com.hungteen.craid.common.impl.amount.RandomSpawn;
 import com.hungteen.craid.common.raid.RaidLoader;
+import com.hungteen.craid.common.raid.RaidManager;
 import com.mojang.brigadier.CommandDispatcher;
 
 import net.minecraft.command.CommandSource;
@@ -20,14 +23,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 
 @Mod("craid")
-public class CustomRaid
+public class CRaid
 {
 	
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final String MOD_ID = "craid";
     
-    public CustomRaid() {
+    public CRaid() {
     	{
     		final Pair<CRaidConfig.Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(CRaidConfig.Common::new);
     		ModLoadingContext.get().registerConfig(Type.COMMON, specPair.getRight());
@@ -39,8 +42,15 @@ public class CustomRaid
     		CRaidConfig.CLIENT_CONFIG = specPair.getLeft();
     	}
     	IEventBus forgeBus = MinecraftForge.EVENT_BUS;
-    	forgeBus.addListener(EventPriority.NORMAL, CustomRaid::addReloadListenerEvent);
-    	forgeBus.addListener(EventPriority.NORMAL, CustomRaid::registerCommonds);
+    	forgeBus.addListener(EventPriority.NORMAL, CRaid::addReloadListenerEvent);
+    	forgeBus.addListener(EventPriority.NORMAL, CRaid::registerCommonds);
+    	
+    	registerMisc();
+    }
+    
+    public static void registerMisc() {
+    	RaidManager.registerSpawnAmount(ConstantSpawn.NAME, ConstantSpawn.class);
+    	RaidManager.registerSpawnAmount(RandomSpawn.NAME, RandomSpawn.class);
     }
     
     public static void registerCommonds(RegisterCommandsEvent event) {

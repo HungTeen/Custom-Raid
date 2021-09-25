@@ -7,24 +7,26 @@ import java.util.stream.Collectors;
 
 import com.google.common.collect.Maps;
 import com.hungteen.craid.Util;
-import com.hungteen.craid.common.raid.AbstractRaid;
+import com.hungteen.craid.common.raid.Raid;
 import com.hungteen.craid.common.raid.RaidManager;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
 
-public class RaidData extends WorldSavedData {
+public class WorldRaidData extends WorldSavedData {
 
 	private static final String DATA_NAME = "CustomRaidData";
-	private final Map<Integer, AbstractRaid> raidMap = Maps.newHashMap();
+	private final Map<Integer, Raid> raidMap = Maps.newHashMap();
 	private final ServerWorld world;
 	private int currentRaidId = 1;
 	private int tick = 0;
 
-	public RaidData(ServerWorld world) {
+	public WorldRaidData(ServerWorld world) {
 		super(DATA_NAME);
 		this.world = world;
 	}
@@ -34,17 +36,19 @@ public class RaidData extends WorldSavedData {
 	 * {@link RaidManager#tickRaids(World)}
 	 */
 	public void tick() {
-		Iterator<AbstractRaid> iterator = this.raidMap.values().iterator();
+		Iterator<Raid> iterator = this.raidMap.values().iterator();
 		while (iterator.hasNext()) {
-			AbstractRaid raid = iterator.next();
+			Raid raid = iterator.next();
 			if (! Util.isRaidEnable()) {
 				raid.remove();;
 			}
-			if (raid.isStopped()) {
+			if (raid.isRemoving()) {
 				iterator.remove();
 				this.setDirty();
 			} else {
+				this.world.getProfiler().push("Custom Raid Tick");
 				raid.tick();
+				this.world.getProfiler().pop();
 			}
 		}
 
@@ -52,13 +56,25 @@ public class RaidData extends WorldSavedData {
 			this.setDirty();
 		}
 	}
+	
+	public Raid createRaid(ServerWorld world, ResourceLocation res, BlockPos pos) {
+		final int id = this.getUniqueId();
+		Raid raid = new Raid(id, world, res, pos);
+		this.addRaid(id, raid);
+		return raid;
+	}
+	
+	public void addRaid(int id, Raid raid) {
+		this.raidMap.put(id, raid);
+		this.setDirty();
+	}
 
 	public int getUniqueId() {
 		this.setDirty();
 		return this.currentRaidId++;
 	}
 
-	public List<AbstractRaid> getRaids() {
+	public List<Raid> getRaids() {
 		return this.raidMap.values().stream().collect(Collectors.toList());
 	}
 
@@ -71,7 +87,7 @@ public class RaidData extends WorldSavedData {
 		final ListNBT raidList = nbt.getList("custom_raids", 10);
 		for (int i = 0; i < raidList.size(); ++i) {
 			final CompoundNBT tmp = raidList.getCompound(i);
-			final AbstractRaid raid = new AbstractRaid(world, tmp);
+			final Raid raid = new Raid(world, tmp);
 			this.raidMap.put(raid.getId(), raid);
 		}
 	}
@@ -81,7 +97,7 @@ public class RaidData extends WorldSavedData {
 		nbt.putInt("current_id", this.currentRaidId);
 
 		final ListNBT raidList = new ListNBT();
-		for (AbstractRaid raid : this.raidMap.values()) {
+		for (Raid raid : this.raidMap.values()) {
 			final CompoundNBT tmp = new CompoundNBT();
 			raid.save(tmp);
 			raidList.add(tmp);
@@ -94,11 +110,11 @@ public class RaidData extends WorldSavedData {
 	/*
 	 * there is no world has invasion except overworld.
 	 */
-	public static RaidData getInvasionData(World worldIn) {
+	public static WorldRaidData getInvasionData(World worldIn) {
 		if (!(worldIn instanceof ServerWorld)) {
 			throw new RuntimeException("Attempted to get the data from a client world. This is wrong.");
 		}
-		return ((ServerWorld) worldIn).getDataStorage().computeIfAbsent(() -> new RaidData((ServerWorld) worldIn),
+		return ((ServerWorld) worldIn).getDataStorage().computeIfAbsent(() -> new WorldRaidData((ServerWorld) worldIn),
 				DATA_NAME);
 	}
 

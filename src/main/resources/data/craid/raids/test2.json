@@ -1,0 +1,23 @@
+{
+  "name":"test",
+  "pre_tick":200,
+  "win_tick":400,
+  "loss_tick":100,
+  "waves":[
+    {
+      "spawns":[
+        {
+          "entity_type":"creeper",
+          "spawn_amount":{
+            "random":{
+              "min":5,
+              "max":15
+            }
+          },
+          "nbt": "{powered:true}"
+        }
+      ],
+      "duration":200
+    }
+  ]
+}
