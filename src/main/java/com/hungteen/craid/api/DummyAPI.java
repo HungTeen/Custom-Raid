@@ -10,6 +10,10 @@ public class DummyAPI implements ICustomRaidAPI {
 	public static final ICustomRaidAPI INSTANCE = new DummyAPI();
 
 	@Override
-	public void registerSpawnAmount(String name, Class<? extends ISpawnAmount> c) {
+	public void registerSpawnAmount(String name, Class<? extends IAmountComponent> c) {
+	}
+
+	@Override
+	public void registerSpawnPlacement(String name, Class<? extends IPlacementComponent> c) {
 	}
 }

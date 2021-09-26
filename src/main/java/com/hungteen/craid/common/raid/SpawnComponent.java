@@ -7,8 +7,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.hungteen.craid.CRaid;
 import com.hungteen.craid.Util;
-import com.hungteen.craid.api.ISpawnAmount;
-import com.hungteen.craid.common.impl.amount.ConstantSpawn;
+import com.hungteen.craid.api.IAmountComponent;
+import com.hungteen.craid.api.IPlacementComponent;
+import com.hungteen.craid.common.impl.amount.ConstantAmount;
+import com.hungteen.craid.common.impl.placement.CenterPlacement;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.command.impl.SummonCommand;
@@ -26,14 +28,16 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class SpawnComponent {
 	
 	private final EntityType<?> entityType;
-	private final ISpawnAmount spawnAmount;
+	private final IAmountComponent spawnAmount;
+	private final IPlacementComponent placement;
 	private final int startTick;
 	private final CompoundNBT nbt;
 	
-	private SpawnComponent(EntityType<?> type, int startTick, ISpawnAmount count, CompoundNBT nbt) {
+	private SpawnComponent(EntityType<?> type, int startTick, IAmountComponent count, IPlacementComponent placement, CompoundNBT nbt) {
 		this.entityType = type;
 		this.startTick = startTick;
 		this.spawnAmount = count;
+		this.placement = placement;
 		this.nbt = nbt;
 	}
 	
@@ -41,14 +45,15 @@ public class SpawnComponent {
 		return this.startTick;
 	}
 	
-	public ISpawnAmount getSpawnCount() {
+	public IAmountComponent getSpawnCount() {
 		return this.spawnAmount;
 	}
 	
 	/**
 	 * copy from {@link SummonCommand}
 	 */
-	public Entity createEntity(ServerWorld world, BlockPos pos) {
+	public Entity createEntity(ServerWorld world, BlockPos origin) {
+		final BlockPos pos = this.placement.getPlacePosition(world, origin);
 		if(! World.isInSpawnableBounds(pos)) {
 			CRaid.LOGGER.error("Invalid position when trying summon entity !");
 			return null;
@@ -74,7 +79,8 @@ public class SpawnComponent {
 	public static class Builder {
 		
 		private EntityType<?> entityType;
-		private ISpawnAmount spawnAmount;
+		private IAmountComponent spawnAmount;
+		private IPlacementComponent placement;
 		private int startTick;
 		private CompoundNBT nbt;
 		
@@ -83,8 +89,13 @@ public class SpawnComponent {
 			return this;
 		}
 		
-		public Builder count(ISpawnAmount spawnAmount) {
+		public Builder count(IAmountComponent spawnAmount) {
 			this.spawnAmount = spawnAmount;
+			return this;
+		}
+		
+		public Builder place(IPlacementComponent placement) {
+			this.placement = placement;
 			return this;
 		}
 		
@@ -99,7 +110,7 @@ public class SpawnComponent {
 		}
 		
 		public SpawnComponent build() {
-			return new SpawnComponent(this.entityType, this.startTick, this.spawnAmount, this.nbt);
+			return new SpawnComponent(this.entityType, this.startTick, this.spawnAmount, this.placement, this.nbt);
 		}
 		
 		public static Builder spawnFromJson(JsonObject jsonObject) {
@@ -115,20 +126,40 @@ public class SpawnComponent {
 			}
 			
 			/* spawn amount */
-			ISpawnAmount amount = new ConstantSpawn();
-		    JsonObject obj = JSONUtils.getAsJsonObject(jsonObject, Util.JSON_ENTITY_SPAWN_AMOUNT);
-		    if(obj != null && ! obj.entrySet().isEmpty()) {
-		    	for(Entry<String, JsonElement> entry : obj.entrySet()) {
-		    		final ISpawnAmount tmp = RaidManager.getSpawnAmount(entry.getKey());
-		    		if(tmp != null) {
-		    			tmp.readJson(entry.getValue());
-		    			amount = tmp;
-		    		} else {
-		    			CRaid.LOGGER.warn("Spawn Component : Read Spawn Amount Wrongly");
-		    		}
-		    		break;
-		    	}
-		    }
+			IAmountComponent amount = new ConstantAmount();
+			{
+				JsonObject obj = JSONUtils.getAsJsonObject(jsonObject, Util.JSON_ENTITY_SPAWN_AMOUNT);
+		        if(obj != null && ! obj.entrySet().isEmpty()) {
+		    	    for(Entry<String, JsonElement> entry : obj.entrySet()) {
+		    		    final IAmountComponent tmp = RaidManager.getSpawnAmount(entry.getKey());
+		    		    if(tmp != null) {
+		    			    tmp.readJson(entry.getValue());
+		    			    amount = tmp;
+		    		    } else {
+		    			    CRaid.LOGGER.warn("Amount Component : Read Spawn Amount Wrongly");
+		    		    }
+		    		    break;
+		    	    }
+		        }
+			}
+		    
+		    /* spawn placement */
+			IPlacementComponent placement = new CenterPlacement();
+			{
+				JsonObject obj = JSONUtils.getAsJsonObject(jsonObject, Util.JSON_ENTITY_PLACEMENT);
+		        if(obj != null && ! obj.entrySet().isEmpty()) {
+		    	    for(Entry<String, JsonElement> entry : obj.entrySet()) {
+		    		    final IPlacementComponent tmp = RaidManager.getSpawnPlacement(entry.getKey());
+		    		    if(tmp != null) {
+		    			    tmp.readJson(entry.getValue());
+		    			    placement = tmp;
+		    		    } else {
+		    			    CRaid.LOGGER.warn("Placement Component : Read Spawn Placement Wrongly");
+		    		    }
+		    		    break;
+		    	    }
+		        }
+			}
 			
 			final int tick = JSONUtils.getAsInt(jsonObject, Util.JSON_ENTITY_START_TICK, 0);
 			
@@ -142,7 +173,7 @@ public class SpawnComponent {
 			    }
 			}
 			
-	        return new Builder().type(type).count(amount).start(tick).nbt(nbt);
+	        return new Builder().type(type).count(amount).place(placement).start(tick).nbt(nbt);
 		}
 	}
 }

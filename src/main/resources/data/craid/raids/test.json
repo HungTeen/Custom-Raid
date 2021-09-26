@@ -11,6 +11,12 @@
           "start_tick":300,
           "spawn_amount":{
             "count":10
+          },
+          "placement":{
+            "center":{
+              "radius":5,
+              "ground":true
+            }
           }
         }
       ],

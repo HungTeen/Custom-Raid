@@ -4,18 +4,18 @@ import java.util.Random;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.hungteen.craid.api.ISpawnAmount;
+import com.hungteen.craid.api.IAmountComponent;
 
 import net.minecraft.util.JSONUtils;
 
-public class RandomSpawn implements ISpawnAmount {
+public class RandomAmount implements IAmountComponent {
 	
 	public static final String NAME = "random";
 	private final Random rand = new Random();
 	private int min = 1;
 	private int max = 1;
 	
-	public RandomSpawn() {
+	public RandomAmount() {
 	}
 	
 	@Override

@@ -31,7 +31,12 @@ public class CRaidAPI {
 		/**
 		 * register new spawn amount getter used in {@link SpawnComponent} 
 		 */
-		void registerSpawnAmount(String name, Class<? extends ISpawnAmount> c);
+		void registerSpawnAmount(String name, Class<? extends IAmountComponent> c);
+		
+		/**
+		 * register new spawn position getter used in {@link SpawnComponent} 
+		 */
+		void registerSpawnPlacement(String name, Class<? extends IPlacementComponent> c);
 	}
 	
 }

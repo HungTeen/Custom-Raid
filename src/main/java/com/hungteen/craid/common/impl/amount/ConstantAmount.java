@@ -1,16 +1,16 @@
 package com.hungteen.craid.common.impl.amount;
 
 import com.google.gson.JsonElement;
-import com.hungteen.craid.api.ISpawnAmount;
+import com.hungteen.craid.api.IAmountComponent;
 
 import net.minecraft.util.JSONUtils;
 
-public class ConstantSpawn implements ISpawnAmount {
+public class ConstantAmount implements IAmountComponent {
 	
 	public static final String NAME = "count";
 	private int cnt;
 	
-	public ConstantSpawn() {
+	public ConstantAmount() {
 	}
 	
 	@Override

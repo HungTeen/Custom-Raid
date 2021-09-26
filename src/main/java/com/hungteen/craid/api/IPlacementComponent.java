@@ -2,9 +2,12 @@ package com.hungteen.craid.api;
 
 import com.google.gson.JsonElement;
 
-public interface ISpawnAmount {
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-	int getSpawnAmount();
+public interface IPlacementComponent {
+
+	BlockPos getPlacePosition(World world, BlockPos origin);
 	
 	/**
 	 * make sure constructer has no argument, 

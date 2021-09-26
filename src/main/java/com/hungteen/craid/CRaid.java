@@ -5,8 +5,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.hungteen.craid.common.command.CRaidCommand;
-import com.hungteen.craid.common.impl.amount.ConstantSpawn;
-import com.hungteen.craid.common.impl.amount.RandomSpawn;
+import com.hungteen.craid.common.impl.amount.ConstantAmount;
+import com.hungteen.craid.common.impl.amount.RandomAmount;
+import com.hungteen.craid.common.impl.placement.CenterPlacement;
+import com.hungteen.craid.common.impl.placement.OuterPlacement;
 import com.hungteen.craid.common.raid.RaidLoader;
 import com.hungteen.craid.common.raid.RaidManager;
 import com.mojang.brigadier.CommandDispatcher;
@@ -49,8 +51,11 @@ public class CRaid
     }
     
     public static void registerMisc() {
-    	RaidManager.registerSpawnAmount(ConstantSpawn.NAME, ConstantSpawn.class);
-    	RaidManager.registerSpawnAmount(RandomSpawn.NAME, RandomSpawn.class);
+    	RaidManager.registerSpawnAmount(ConstantAmount.NAME, ConstantAmount.class);
+    	RaidManager.registerSpawnAmount(RandomAmount.NAME, RandomAmount.class);
+    	
+    	RaidManager.registerSpawnPlacement(CenterPlacement.NAME, CenterPlacement.class);
+    	RaidManager.registerSpawnPlacement(OuterPlacement.NAME, OuterPlacement.class);
     }
     
     public static void registerCommonds(RegisterCommandsEvent event) {
