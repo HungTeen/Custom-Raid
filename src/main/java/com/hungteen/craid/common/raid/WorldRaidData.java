@@ -1,4 +1,4 @@
-package com.hungteen.craid.common.world;
+package com.hungteen.craid.common.raid;
 
 import java.util.Iterator;
 import java.util.List;
@@ -6,9 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Maps;
-import com.hungteen.craid.Util;
-import com.hungteen.craid.common.raid.Raid;
-import com.hungteen.craid.common.raid.RaidManager;
+import com.hungteen.craid.CRaidUtil;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -39,8 +37,8 @@ public class WorldRaidData extends WorldSavedData {
 		Iterator<Raid> iterator = this.raidMap.values().iterator();
 		while (iterator.hasNext()) {
 			Raid raid = iterator.next();
-			if (! Util.isRaidEnable()) {
-				raid.remove();;
+			if (! CRaidUtil.isRaidEnable()) {
+				raid.remove();
 			}
 			if (raid.isRemoving()) {
 				iterator.remove();
@@ -59,7 +57,7 @@ public class WorldRaidData extends WorldSavedData {
 	
 	public Raid createRaid(ServerWorld world, ResourceLocation res, BlockPos pos) {
 		final int id = this.getUniqueId();
-		Raid raid = new Raid(id, world, res, pos);
+		final Raid raid = new Raid(id, world, res, pos);
 		this.addRaid(id, raid);
 		return raid;
 	}
@@ -71,7 +69,7 @@ public class WorldRaidData extends WorldSavedData {
 
 	public int getUniqueId() {
 		this.setDirty();
-		return this.currentRaidId++;
+		return this.currentRaidId ++;
 	}
 
 	public List<Raid> getRaids() {
@@ -83,7 +81,6 @@ public class WorldRaidData extends WorldSavedData {
 		if (nbt.contains("current_id")) {
 			this.currentRaidId = nbt.getInt("current_id");
 		}
-
 		final ListNBT raidList = nbt.getList("custom_raids", 10);
 		for (int i = 0; i < raidList.size(); ++i) {
 			final CompoundNBT tmp = raidList.getCompound(i);

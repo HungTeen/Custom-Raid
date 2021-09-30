@@ -1,3 +1,10 @@
 {
-
+  "info.craid.search_fail":"Search Fail, no such raid",
+  "info.craid.has_raid":"Add fail, there is already one nearby",
+  "raid.craid.title":"Raid",
+  "raid.craid.win_title":"Victory",
+  "raid.craid.loss_title":"Loss",
+  "raid.craid.warn":"Please go back to raid, or it will disappear soon !",
+  "advancement.craid.root":"Custom Raid",
+  "advancement.craid.root.desc":"Defeat Test Raid"
 }

@@ -2,7 +2,7 @@ package com.hungteen.craid.common.impl.placement;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.hungteen.craid.Util;
+import com.hungteen.craid.CRaidUtil;
 import com.hungteen.craid.api.IPlacementComponent;
 
 import net.minecraft.util.JSONUtils;
@@ -20,8 +20,8 @@ public class OuterPlacement implements IPlacementComponent {
 	@Override
 	public BlockPos getPlacePosition(World world, BlockPos origin) {
 		this.max = Math.max(this.max, this.min);//prevent wrong json by others.
-		final int dx = (world.getRandom().nextDouble() < 0.5 ? 1 : -1) * Util.getRandomMinMax(world.getRandom(), this.min, this.max);
-		final int dz = (world.getRandom().nextDouble() < 0.5 ? 1 : -1) * Util.getRandomMinMax(world.getRandom(), this.min, this.max);
+		final int dx = (world.getRandom().nextDouble() < 0.5 ? 1 : -1) * CRaidUtil.getRandomMinMax(world.getRandom(), this.min, this.max);
+		final int dz = (world.getRandom().nextDouble() < 0.5 ? 1 : -1) * CRaidUtil.getRandomMinMax(world.getRandom(), this.min, this.max);
 		final int height = this.onSurface ? world.getHeight(Heightmap.Type.WORLD_SURFACE, origin.getX() + dx, origin.getZ() + dz) : origin.getY();
 		return new BlockPos(origin.getX() + dx, height, origin.getZ() + dz);
 	}

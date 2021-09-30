@@ -1,5 +1,11 @@
 # Custom Raid mod
 
+### Introduction
+
+CRaid is a mod that allow players **customize raid by data pack**.
+
+---
+
 ### Current Progress
 
 Minecraft 1.16.5-0.1: Active.

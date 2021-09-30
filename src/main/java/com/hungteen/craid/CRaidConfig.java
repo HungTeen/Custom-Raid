@@ -18,6 +18,16 @@ public class CRaidConfig {
 						.comment("Turn to false, no new raid will happen, and old raids will be clear.")
 						.translation("config.craid.enable_raid")
 						.define("EnableRaid", true);
+				
+				GlobalSettings.RaidWaitTime = builder
+						.comment("how many ticks will raid wait, when there is no player in it.")
+						.translation("config.craid.raid_wait_time")
+						.defineInRange("RaidWaitTime", 400, 1, 1000000);
+				
+				GlobalSettings.RaidRange = builder
+						.comment("how far will a player join the raid.")
+						.translation("config.craid.raid_range")
+						.defineInRange("RaidRange", 50, 1, 1000);
 			}
 		}
 		
@@ -25,6 +35,10 @@ public class CRaidConfig {
 		
 		public static class GlobalSettings{
 			public ForgeConfigSpec.BooleanValue EnableRaid;
+			
+			public ForgeConfigSpec.IntValue RaidWaitTime;
+			
+			public ForgeConfigSpec.IntValue RaidRange;
 		}		    
 		
 	}

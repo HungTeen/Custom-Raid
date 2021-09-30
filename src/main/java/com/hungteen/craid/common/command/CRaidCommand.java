@@ -1,5 +1,8 @@
 package com.hungteen.craid.common.command;
 
+import java.util.Collection;
+
+import com.hungteen.craid.CRaidUtil;
 import com.hungteen.craid.common.raid.RaidManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -8,10 +11,13 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPosArgument;
+import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.arguments.ResourceLocationArgument;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class CRaidCommand {
 
@@ -22,22 +28,51 @@ public class CRaidCommand {
 					return addRaid(command.getSource(), getResourceLocation(command, "type"),
 							BlockPosArgument.getLoadedBlockPos(command, "pos"));
 				}))));
-		builder.then(Commands.literal("list").then(Commands.literal("all").executes((command) -> {
-			return showAllRaid(command.getSource());
+		builder.then(Commands.literal("remove").then(Commands.literal("nearby")
+				.then(Commands.argument("pos", BlockPosArgument.blockPos()).executes((command) -> {
+					return removeNearby(command.getSource(), BlockPosArgument.getLoadedBlockPos(command, "pos"));
+				}))).then(Commands.literal("all").executes((command) -> {
+							return removeAll(command.getSource());
+				})));
+		builder.then(Commands.literal("list").then(Commands.argument("targets", EntityArgument.players()).executes((command) -> {
+			return showAllRaid(command.getSource(), EntityArgument.getPlayers(command, "targets"));
 		})));
 		dispatcher.register(builder);
 	}
 
-	public static int addRaid(CommandSource source, ResourceLocation res, BlockPos pos) {
-		if(RaidManager.getRaidContent(res) != null) {
-			RaidManager.createRaid(source.getLevel(), res, pos);
+	private static int addRaid(CommandSource source, ResourceLocation res, BlockPos pos) {
+		if(RaidManager.getRaidComponent(res) != null) {
+			if(! RaidManager.hasRaidNearby(source.getLevel(), pos)) {
+				RaidManager.createRaid(source.getLevel(), res, pos);
+			} else {
+				source.sendFailure(new TranslationTextComponent("info.craid.has_raid"));
+			}
 		} else {
-			source.sendFailure(new StringTextComponent("fail"));
+			source.sendFailure(new TranslationTextComponent("info.craid.search_fail"));
 		}
 		return 1;
 	}
+	
+	private static int removeNearby(CommandSource source, BlockPos pos) {
+		RaidManager.getRaids(source.getLevel()).forEach(raid -> {
+			if(raid.getCenter().closerThan(pos, CRaidUtil.getRaidRange())) {
+				raid.remove();
+			}
+		});
+		return 1;
+	}
+	
+	private static int removeAll(CommandSource source) {
+		RaidManager.getRaids(source.getLevel()).forEach(raid -> {
+			raid.remove();
+		});
+		return 1;
+	}
 
-	public static int showAllRaid(CommandSource source) {
+	private static int showAllRaid(CommandSource source, Collection<? extends ServerPlayerEntity> targets) {
+		RaidManager.getRaids(source.getLevel()).forEach(raid -> {
+			targets.forEach(p -> CRaidUtil.sendMsgTo(p, new StringTextComponent(raid.getCenter().toString())));
+		});
 		return 1;
 	}
 	
