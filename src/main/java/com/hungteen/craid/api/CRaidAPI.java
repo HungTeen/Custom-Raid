@@ -1,16 +1,14 @@
 package com.hungteen.craid.api;
 
-import java.util.function.Supplier;
-
-import org.apache.logging.log4j.LogManager;
-
 import com.google.common.base.Suppliers;
 import com.hungteen.craid.common.impl.SpawnComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import org.apache.logging.log4j.LogManager;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import java.util.function.Supplier;
 
 public class CRaidAPI {
 
@@ -30,16 +28,16 @@ public class CRaidAPI {
 	public static ICustomRaidAPI get() {
 		return LAZY_INSTANCE.get();
 	}
-	
+
 	public interface ICustomRaidAPI {
-		
+
 		/**
-		 * register new spawn amount getter used in {@link SpawnComponent} 
+		 * register new spawn amount getter used in {@link SpawnComponent}
 		 */
 		void registerSpawnAmount(String name, Class<? extends IAmountComponent> c);
-		
+
 		/**
-		 * register new spawn position getter used in {@link SpawnComponent} 
+		 * register new spawn position getter used in {@link SpawnComponent}
 		 */
 		void registerSpawnPlacement(String name, Class<? extends IPlacementComponent> c);
 
@@ -47,12 +45,12 @@ public class CRaidAPI {
 		 * register new raid type, so that u can read your own json.
 		 */
 		void registerRaidType(String name, Class<? extends IRaidComponent> c);
-		
+
 		/**
 		 * register new wave type, so that u can read your own json.
 		 */
 		void registerWaveType(String name, Class<? extends IWaveComponent> c);
-		
+
 		/**
 		 * register new spawn type, so that u can read your own json.
 		 */
@@ -62,10 +60,10 @@ public class CRaidAPI {
 		 * register new reward type, so that u can read your own json.
 		 */
 		void registerReward(String name, Class<? extends IRewardComponent> c);
-		
-		void createRaid(ServerWorld world, ResourceLocation res, BlockPos pos);
-		
-		boolean isRaider(ServerWorld world, Entity entity);
+
+		void createRaid(ServerLevel world, ResourceLocation res, BlockPos pos);
+
+		boolean isRaider(ServerLevel world, Entity entity);
 	}
-	
+
 }

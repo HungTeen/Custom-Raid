@@ -1,18 +1,12 @@
 package com.hungteen.craid.common.impl;
 
 import com.hungteen.craid.api.CRaidAPI.ICustomRaidAPI;
-import com.hungteen.craid.api.IAmountComponent;
-import com.hungteen.craid.api.IPlacementComponent;
-import com.hungteen.craid.api.IRaidComponent;
-import com.hungteen.craid.api.IRewardComponent;
-import com.hungteen.craid.api.ISpawnComponent;
-import com.hungteen.craid.api.IWaveComponent;
+import com.hungteen.craid.api.*;
 import com.hungteen.craid.common.raid.RaidManager;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 
 /**
  * correct real API.
@@ -28,12 +22,12 @@ public class CRaidAPIImpl implements ICustomRaidAPI{
 	public void registerSpawnPlacement(String name, Class<? extends IPlacementComponent> c) {
 		RaidManager.registerSpawnPlacement(name, c);
 	}
-	
+
 	@Override
 	public void registerReward(String name, Class<? extends IRewardComponent> c) {
 		RaidManager.registerReward(name, c);
 	}
-	
+
 	@Override
 	public void registerRaidType(String name, Class<? extends IRaidComponent> c) {
 		RaidManager.registerRaidType(name, c);
@@ -50,14 +44,14 @@ public class CRaidAPIImpl implements ICustomRaidAPI{
 	}
 
 	@Override
-	public void createRaid(ServerWorld world, ResourceLocation res, BlockPos pos) {
+	public void createRaid(ServerLevel world, ResourceLocation res, BlockPos pos) {
 		if(! RaidManager.hasRaidNearby(world, pos)) {
 			RaidManager.createRaid(world, res, pos);
 		}
 	}
-	
+
 	@Override
-	public boolean isRaider(ServerWorld world, Entity entity) {
+	public boolean isRaider(ServerLevel world, Entity entity) {
 		return RaidManager.isRaider(world, entity);
 	}
 
