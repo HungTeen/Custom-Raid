@@ -18,7 +18,7 @@ version = "1.18.2-1.0"
 group = 'com.hungteen.pvz'
 
 java {
-    archivesBaseName = 'EnhancedArmaments-forge'
+    archivesBaseName = 'Custom-Raid-forge'
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 tasks.withType(JavaCompile) {
