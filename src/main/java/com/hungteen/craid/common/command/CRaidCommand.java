@@ -1,28 +1,27 @@
 package com.hungteen.craid.common.command;
 
-import java.util.Collection;
-
 import com.hungteen.craid.CRaidUtil;
 import com.hungteen.craid.common.raid.RaidManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
+import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.BlockPosArgument;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.command.arguments.ResourceLocationArgument;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import java.util.Collection;
 
 public class CRaidCommand {
 
-	public static void register(CommandDispatcher<CommandSource> dispatcher) {
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("craid").requires(ctx -> ctx.hasPermission(2));
+	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("craid").requires(ctx -> ctx.hasPermission(2));
 		builder.then(Commands.literal("add").then(Commands.argument("type", ResourceLocationArgument.id())
 				.then(Commands.argument("pos", BlockPosArgument.blockPos()).executes((command) -> {
 					return addRaid(command.getSource(), getResourceLocation(command, "type"),
@@ -40,20 +39,20 @@ public class CRaidCommand {
 		dispatcher.register(builder);
 	}
 
-	private static int addRaid(CommandSource source, ResourceLocation res, BlockPos pos) {
+	private static int addRaid(CommandSourceStack source, ResourceLocation res, BlockPos pos) {
 		if(RaidManager.getRaidComponent(res) != null) {
 			if(! RaidManager.hasRaidNearby(source.getLevel(), pos)) {
 				RaidManager.createRaid(source.getLevel(), res, pos);
 			} else {
-				source.sendFailure(new TranslationTextComponent("info.craid.has_raid"));
+				source.sendFailure(new TranslatableComponent("info.craid.has_raid"));
 			}
 		} else {
-			source.sendFailure(new TranslationTextComponent("info.craid.search_fail"));
+			source.sendFailure(new TranslatableComponent("info.craid.search_fail"));
 		}
 		return 1;
 	}
-	
-	private static int removeNearby(CommandSource source, BlockPos pos) {
+
+	private static int removeNearby(CommandSourceStack source, BlockPos pos) {
 		RaidManager.getRaids(source.getLevel()).forEach(raid -> {
 			if(raid.getCenter().closerThan(pos, CRaidUtil.getRaidRange())) {
 				raid.remove();
@@ -61,22 +60,22 @@ public class CRaidCommand {
 		});
 		return 1;
 	}
-	
-	private static int removeAll(CommandSource source) {
+
+	private static int removeAll(CommandSourceStack  source) {
 		RaidManager.getRaids(source.getLevel()).forEach(raid -> {
 			raid.remove();
 		});
 		return 1;
 	}
 
-	private static int showAllRaid(CommandSource source, Collection<? extends ServerPlayerEntity> targets) {
+	private static int showAllRaid(CommandSourceStack source, Collection<? extends ServerPlayer> targets) {
 		RaidManager.getRaids(source.getLevel()).forEach(raid -> {
-			targets.forEach(p -> CRaidUtil.sendMsgTo(p, new StringTextComponent(raid.getCenter().toString())));
+			targets.forEach(p -> CRaidUtil.sendMsgTo(p, new TextComponent(raid.getCenter().toString())));
 		});
 		return 1;
 	}
-	
-	private static ResourceLocation getResourceLocation(CommandContext<CommandSource> source, String string) {
+
+	private static ResourceLocation getResourceLocation(CommandContext<CommandSourceStack> source, String string) {
 		return source.getArgument(string, ResourceLocation.class);
 	}
 

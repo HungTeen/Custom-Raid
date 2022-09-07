@@ -1,9 +1,5 @@
 package com.hungteen.craid;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.hungteen.craid.api.CRaidAPI;
 import com.hungteen.craid.api.CRaidAPI.ICustomRaidAPI;
 import com.hungteen.craid.common.advancement.AdvancementHandler;
@@ -20,8 +16,7 @@ import com.hungteen.craid.common.impl.reward.AdvancementRewardComponent;
 import com.hungteen.craid.common.network.PacketHandler;
 import com.hungteen.craid.common.raid.RaidLoader;
 import com.mojang.brigadier.CommandDispatcher;
-
-import net.minecraft.command.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -32,15 +27,18 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod("craid")
 public class CRaid
 {
-	
+
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final String MOD_ID = "craid";
-    
+
     public CRaid() {
     	{
     		final Pair<CRaidConfig.Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(CRaidConfig.Common::new);
@@ -54,40 +52,40 @@ public class CRaid
     	}
     	IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
     	modBus.addListener(EventPriority.NORMAL, PacketHandler::init);
-    	
+
     	IEventBus forgeBus = MinecraftForge.EVENT_BUS;
     	forgeBus.addListener(EventPriority.NORMAL, CRaid::addReloadListenerEvent);
     	forgeBus.addListener(EventPriority.NORMAL, CRaid::registerCommonds);
-    	
+
     	AdvancementHandler.init();
-    	
+
     	registerMisc();
     }
-    
+
     public static void registerMisc() {
     	final ICustomRaidAPI api = CRaidAPI.get();
-    	
+
     	api.registerRaidType(RaidComponent.NAME, RaidComponent.class);
-    	
+
     	api.registerWaveType(WaveComponent.NAME, WaveComponent.class);
-    	
+
     	api.registerSpawnType(SpawnComponent.NAME, SpawnComponent.class);
-    	
+
     	api.registerSpawnAmount(ConstantAmount.NAME, ConstantAmount.class);
     	api.registerSpawnAmount(RandomAmount.NAME, RandomAmount.class);
-    	
+
     	api.registerSpawnPlacement(CenterPlacement.NAME, CenterPlacement.class);
     	api.registerSpawnPlacement(OuterPlacement.NAME, OuterPlacement.class);
     	api.registerSpawnPlacement(OffsetPlacement.NAME, OffsetPlacement.class);
-    	
+
     	api.registerReward(AdvancementRewardComponent.NAME, AdvancementRewardComponent.class);
     }
-    
+
     public static void registerCommonds(RegisterCommandsEvent event) {
-        CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
+        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
         CRaidCommand.register(dispatcher);
     }
-    
+
     public static void addReloadListenerEvent(AddReloadListenerEvent event) {
 		event.addListener(new RaidLoader());
 	}

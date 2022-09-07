@@ -1,27 +1,27 @@
 package com.hungteen.craid.common.network;
 
-import java.util.function.Supplier;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Supplier;
 
 public class PlaySoundPacket {
 
 	private String type;
-	
+
 	public PlaySoundPacket(String type) {
 		this.type = type;
 	}
-	
-	public PlaySoundPacket(PacketBuffer buffer) {
+
+	public PlaySoundPacket(FriendlyByteBuf buffer) {
 		this.type = buffer.readUtf();
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeUtf(type);
 	}
 

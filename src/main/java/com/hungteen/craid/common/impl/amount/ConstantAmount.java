@@ -2,17 +2,16 @@ package com.hungteen.craid.common.impl.amount;
 
 import com.google.gson.JsonElement;
 import com.hungteen.craid.api.IAmountComponent;
-
-import net.minecraft.util.JSONUtils;
+import net.minecraft.util.GsonHelper;
 
 public class ConstantAmount implements IAmountComponent {
-	
+
 	public static final String NAME = "count";
 	private int cnt;
-	
+
 	public ConstantAmount() {
 	}
-	
+
 	@Override
 	public int getSpawnAmount() {
 		return this.cnt;
@@ -20,7 +19,7 @@ public class ConstantAmount implements IAmountComponent {
 
 	@Override
 	public void readJson(JsonElement json) {
-		this.cnt = JSONUtils.convertToInt(json, NAME);
+		this.cnt = GsonHelper.convertToInt(json, NAME);
 	}
 
 }

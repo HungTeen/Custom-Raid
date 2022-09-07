@@ -1,11 +1,10 @@
 package com.hungteen.craid.api;
 
 import com.hungteen.craid.api.CRaidAPI.ICustomRaidAPI;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 
 /**
  * fake dummy API when there is no Custom Raid mod.
@@ -39,11 +38,11 @@ public class DummyAPI implements ICustomRaidAPI {
 	}
 
 	@Override
-	public void createRaid(ServerWorld world, ResourceLocation res, BlockPos pos) {
+	public void createRaid(ServerLevel world, ResourceLocation res, BlockPos pos) {
 	}
 
 	@Override
-	public boolean isRaider(ServerWorld world, Entity entity) {
+	public boolean isRaider(ServerLevel world, Entity entity) {
 		return false;
 	}
 

@@ -1,33 +1,26 @@
 package com.hungteen.craid.common.raid;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Maps;
 import com.hungteen.craid.CRaid;
 import com.hungteen.craid.CRaidUtil;
-import com.hungteen.craid.api.IAmountComponent;
-import com.hungteen.craid.api.IPlacementComponent;
-import com.hungteen.craid.api.IRaidComponent;
-import com.hungteen.craid.api.IRewardComponent;
-import com.hungteen.craid.api.ISpawnComponent;
-import com.hungteen.craid.api.IWaveComponent;
+import com.hungteen.craid.api.*;
 import com.hungteen.craid.api.events.RaidEvent;
 import com.hungteen.craid.common.impl.CRaidAPIImpl;
 import com.hungteen.craid.common.impl.RaidComponent;
 import com.hungteen.craid.common.impl.SpawnComponent;
 import com.hungteen.craid.common.impl.WaveComponent;
 import com.hungteen.craid.common.impl.amount.ConstantAmount;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class RaidManager {
 
@@ -38,24 +31,19 @@ public class RaidManager {
 	private static final Map<String, Class<? extends IAmountComponent>> AMOUNT_MAP = Maps.newHashMap();
 	private static final Map<String, Class<? extends IPlacementComponent>> PLACEMENT_MAP = Maps.newHashMap();
 	private static final Map<String, Class<? extends IRewardComponent>> REWARD_MAP = Maps.newHashMap();
-	
-	/**
-	 * {@link RaidLoader#apply(Map, net.minecraft.resources.IResourceManager, net.minecraft.profiler.IProfiler)}
-	 */
+
 	public static void finishRaidMap(Map<ResourceLocation, IRaidComponent> map) {
-		for(Entry<ResourceLocation, IRaidComponent> entry : map.entrySet()) {
-			RAID_MAP.put(entry.getKey(), entry.getValue());
-		}
+		RAID_MAP.putAll(map);
 	}
-	
-	public static void tickRaids(World world) {
+
+	public static void tickRaids(Level world) {
 		if(! world.isClientSide) {
 			final WorldRaidData data = WorldRaidData.getInvasionData(world);
-			data.tick();
+			data.tick(world);
 		}
 	}
-	
-	public static boolean hasRaidNearby(ServerWorld world, BlockPos pos) {
+
+	public static boolean hasRaidNearby(ServerLevel world, BlockPos pos) {
 		final List<Raid> list = getRaids(world);
 		for(Raid r : list) {
 			if(Math.abs(r.getCenter().getX() - pos.getX()) <= CRaidUtil.getRaidRange()
@@ -66,18 +54,18 @@ public class RaidManager {
 		}
 		return false;
 	}
-	
-	public static void createRaid(ServerWorld world, ResourceLocation res, BlockPos pos) {
+
+	public static void createRaid(ServerLevel world, ResourceLocation res, BlockPos pos) {
 		final WorldRaidData data = WorldRaidData.getInvasionData(world);
 		final Raid raid = data.createRaid(world, res, pos);
 		MinecraftForge.EVENT_BUS.post(new RaidEvent.RaidStartEvent(raid));
 	}
-	
-	public static List<Raid> getRaids(ServerWorld world) {
+
+	public static List<Raid> getRaids(ServerLevel world) {
 		return WorldRaidData.getInvasionData(world).getRaids();
 	}
-	
-	public static boolean isRaider(ServerWorld world, Entity entity) {
+
+	public static boolean isRaider(ServerLevel world, Entity entity) {
 		final WorldRaidData data = WorldRaidData.getInvasionData(world);
 		for(Raid raid : data.getRaids()) {
 			if(raid.isRaider(entity)) {
@@ -86,12 +74,12 @@ public class RaidManager {
 		}
 		return false;
 	}
-	
+
 	@Nullable
 	public static IRaidComponent getRaidComponent(ResourceLocation res) {
 		return RAID_MAP.getOrDefault(res, null);
 	}
-	
+
 	/**
 	 * {@link CRaidAPIImpl#registerSpawnAmount(String, Class)}
 	 */
@@ -101,7 +89,7 @@ public class RaidManager {
 		}
 		AMOUNT_MAP.put(name, c);
 	}
-	
+
 	/**
 	 * {@link CRaidAPIImpl#registerSpawnPlacement(String, Class)}
 	 */
@@ -111,7 +99,7 @@ public class RaidManager {
 		}
 		PLACEMENT_MAP.put(name, c);
 	}
-	
+
 	/**
 	 * {@link CRaidAPIImpl#registerSpawnPlacement(String, Class)}
 	 */
@@ -121,7 +109,7 @@ public class RaidManager {
 		}
 		REWARD_MAP.put(name, c);
 	}
-	
+
 	/**
 	 * {@link CRaidAPIImpl#registerRaidType(String, Class)}
 	 */
@@ -131,7 +119,7 @@ public class RaidManager {
 		}
 		RAID_TYPE_MAP.put(name, c);
 	}
-	
+
 	/**
 	 * {@link CRaidAPIImpl#registerWaveType(String, Class)}
 	 */
@@ -141,7 +129,7 @@ public class RaidManager {
 		}
 		WAVE_TYPE_MAP.put(name, c);
 	}
-	
+
 	/**
 	 * {@link CRaidAPIImpl#registerSpawnType(String, Class)}
 	 */
@@ -151,7 +139,7 @@ public class RaidManager {
 		}
 		SPAWN_TYPE_MAP.put(name, c);
 	}
-	
+
 	/**
 	 * get amount component by type name.
 	 */
@@ -167,7 +155,7 @@ public class RaidManager {
 		}
 		return new ConstantAmount();
 	}
-	
+
 	/**
 	 * get placement component by type name.
 	 */
@@ -184,7 +172,7 @@ public class RaidManager {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * get placement component by type name.
 	 */
@@ -201,7 +189,7 @@ public class RaidManager {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * get raid component by type name.
 	 */
@@ -218,7 +206,7 @@ public class RaidManager {
 		}
 		return new RaidComponent();
 	}
-	
+
 	/**
 	 * get wave component by type name.
 	 */
@@ -235,7 +223,7 @@ public class RaidManager {
 		}
 		return new WaveComponent();
 	}
-	
+
 	/**
 	 * get spawn component by type name.
 	 */
@@ -252,5 +240,5 @@ public class RaidManager {
 		}
 		return new SpawnComponent();
 	}
-	
+
 }

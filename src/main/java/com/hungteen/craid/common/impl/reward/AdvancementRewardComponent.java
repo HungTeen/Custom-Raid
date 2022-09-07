@@ -3,23 +3,22 @@ package com.hungteen.craid.common.impl.reward;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hungteen.craid.api.IRewardComponent;
-
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 
 public class AdvancementRewardComponent implements IRewardComponent {
 
 	public static final String NAME = "advancements";
 	private AdvancementRewards reward = AdvancementRewards.EMPTY;
-	
+
 	@Override
-	public void reward(ServerPlayerEntity player) {
+	public void reward(ServerPlayer player) {
 		this.reward.grant(player);
 	}
 
 	@Override
-	public void rewardGlobally(World world) {
+	public void rewardGlobally(Level world) {
 	}
 
 	@Override
