@@ -1,0 +1,114 @@
+plugins {
+    id("multiplatform-convention")
+
+    alias(libs.plugins.loom)
+    alias(libs.plugins.modpublish)
+}
+
+version = modVersion
+var mcVersion = libs.versions.minecraft.asProvider().get()
+base {
+    archivesName = "${modName}-fabric-${mcVersion}"
+}
+
+loom {
+//    accessWidenerPath = file("src/main/resources/geckolib.accesswidener")
+
+    mixin.defaultRefmapName.set("${modId}.refmap.json")
+
+    runs {
+        named("client") {
+            configName = "Fabric Client"
+
+            client()
+            ideConfigGenerated(true)
+            runDir("run/" + name)
+            programArg("--username=Dev")
+        }
+
+        named("server") {
+            configName = "Fabric Server"
+
+            server()
+            ideConfigGenerated(true)
+            runDir("run/" + name)
+        }
+    }
+}
+
+dependencies {
+    minecraft(libs.minecraft)
+    mappings(loom.layered() {
+        officialMojangMappings()
+    })
+    modImplementation(libs.fabric)
+    modImplementation(libs.fabric.api)
+    compileOnly(project(":common"))
+}
+
+compileJava {
+    source(project(":common").sourceSets.main.allSource)
+}
+
+sourcesJar {
+    from project(":common").sourceSets.main.allSource
+}
+
+processResources {
+    from project(":common").sourceSets.main.resources
+    exclude("**/accesstransformer-nf.cfg")
+}
+
+task apiJar(type: Jar, dependsOn: classes) {
+    archiveClassifier = 'api'
+
+    include "hungteen/${modId}/api/**"
+
+    // Sources included because of MinecraftForge/ForgeGradle#369
+    from project(":common").sourceSets.main.allJava
+    from(sourceSets.main.allJava)
+    from(sourceSets.main.output)
+}
+
+artifacts {
+    archives apiJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+        }
+    }
+}
+
+publishMods {
+    file = remapJar.archiveFile
+    type = (modVersionType == "STABLE" ? STABLE : BETA)
+    modLoaders.add("fabric")
+    displayName.set("${modName}-${project.version} for Fabric $mcVersion")
+
+    curseforge {
+        projectId = curseProjectId
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+
+        minecraftVersions.add(mcVersion)
+        javaVersions.add(JavaVersion.VERSION_21)
+
+        clientRequired = true
+        serverRequired = true
+
+        changelog = rootProject.file("docs/en_us/changelog.md").text
+    }
+
+    modrinth {
+        projectId = modrinthId
+        accessToken = providers.environmentVariable("MODRINTH_API_KEY")
+
+        minecraftVersions.add(mcVersion)
+
+        changelog = rootProject.file("docs/en_us/changelog.md").text
+    }
+}
