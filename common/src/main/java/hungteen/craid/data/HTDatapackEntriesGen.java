@@ -1,10 +1,10 @@
 package hungteen.craid.data;
 
-import hungteen.craid.common.impl.position.HTLibPositionComponents;
-import hungteen.craid.common.impl.raid.HTLibRaidComponents;
-import hungteen.craid.common.impl.result.HTLibResultComponents;
-import hungteen.craid.common.impl.spawn.HTLibSpawnComponents;
-import hungteen.craid.common.impl.wave.HTLibWaveComponents;
+import hungteen.craid.common.codec.position.HTLibPositionComponents;
+import hungteen.craid.common.codec.raid.HTLibRaidComponents;
+import hungteen.craid.common.codec.result.HTLibResultComponents;
+import hungteen.craid.common.codec.spawn.HTLibSpawnComponents;
+import hungteen.craid.common.codec.wave.HTLibWaveComponents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.PackOutput;

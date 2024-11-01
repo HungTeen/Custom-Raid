@@ -30,4 +30,6 @@ public interface HTRaid {
      * @return Function (Spawn -> Placement).
      */
     Function<SpawnComponent, PositionComponent> getPlaceComponent();
+
+    int getEntityID();
 }

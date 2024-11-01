@@ -1,6 +1,6 @@
 package hungteen.craid.common;
 
-import hungteen.craid.platform.HTLibPlatformAPI;
+import hungteen.craid.platform.CRaidPlatformAPI;
 import hungteen.craid.client.HTLibClientProxy;
 import hungteen.craid.common.world.entity.DummyEntity;
 import hungteen.craid.common.world.entity.DummyEntityManager;
@@ -29,7 +29,7 @@ public class HTLibProxy {
         if (instance == null) {
             synchronized (HTLibProxy.class) {
                 if (instance == null) {
-                    if(HTLibPlatformAPI.get().isPhysicalClient()){
+                    if(CRaidPlatformAPI.get().isPhysicalClient()){
                         instance = new HTLibClientProxy();
                     } else {
                         instance = new HTLibProxy();

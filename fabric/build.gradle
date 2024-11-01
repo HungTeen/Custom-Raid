@@ -7,6 +7,8 @@ plugins {
 
 version = modVersion
 var mcVersion = libs.versions.minecraft.asProvider().get()
+var htlibVersion = libs.versions.htlib.asProvider().get()
+var ccaVersion = libs.versions.cca.get()
 base {
     archivesName = "${modName}-fabric-${mcVersion}"
 }
@@ -36,6 +38,14 @@ loom {
     }
 }
 
+repositories {
+    mavenLocal()
+    maven {
+        name = 'Ladysnake Mods'
+        url = 'https://maven.ladysnake.org/releases'
+    }
+}
+
 dependencies {
     minecraft(libs.minecraft)
     mappings(loom.layered() {
@@ -44,6 +54,14 @@ dependencies {
     modImplementation(libs.fabric)
     modImplementation(libs.fabric.api)
     compileOnly(project(":common"))
+
+    // Don't include base and entity as Trinkets includes it already
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ccaVersion}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${ccaVersion}"
+
+    compileOnly "com.demonwav.mcdev:annotations:1.0" // only to shut up compile warnings from CCA's usage of CheckEnv and Env
+
+    compileOnly("hungteen.htlib:HTLib:${mcVersion}-${htlibVersion}-fabric")
 }
 
 compileJava {

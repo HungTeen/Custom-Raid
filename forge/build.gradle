@@ -8,6 +8,7 @@ plugins {
 
 version = modVersion
 var mcVersion = libs.versions.minecraft.asProvider().get()
+var htlibVersion = libs.versions.htlib.asProvider().get()
 base {
     archivesName = "${modName}-forge-${mcVersion}"
 }
@@ -55,6 +56,10 @@ minecraft {
     }
 }
 
+repositories {
+    mavenLocal()
+}
+
 dependencies {
     minecraft(libs.forge)
     compileOnly(project(":common"))
@@ -65,6 +70,8 @@ dependencies {
 //    implementation(libs.jopt.simple)
     // Hack fix for now, force jopt-simple to be exactly 5.0.4 because Mojang ships that version, but some transtive dependencies request 6.0+
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
+
+    compileOnly("hungteen.htlib:HTLib:${mcVersion}-${htlibVersion}-forge")
 
 }
 

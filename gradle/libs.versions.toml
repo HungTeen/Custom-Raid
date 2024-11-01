@@ -27,6 +27,7 @@ neoforge = "21.1.62"
 mixin = "0.8.7"
 mixinextras = "0.3.5"
 mixinextras-range = "[0.3.5,)"
+cca = "6.1.1"
 htlib = "1.1.0"
 htlib-range = "[1.1.0,)"
 
@@ -75,3 +76,4 @@ loom = { id = "fabric-loom", version.ref = "plugin-loom" }
 # Misc
 ideaext = { id = "org.jetbrains.gradle.plugin.idea-ext", version.ref = "plugin-idea-ext" }
 mixin = { id = "org.spongepowered.mixin", version.ref = "plugin-mixin" }
+#cca = { id = "dev.onyxstudios.cardinal-components-api", version.ref = "cca" }

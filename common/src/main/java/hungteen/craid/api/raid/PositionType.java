@@ -1,14 +1,13 @@
 package hungteen.craid.api.raid;
 
 import com.mojang.serialization.MapCodec;
-import hungteen.craid.api.registry.SimpleEntry;
 
 /**
  * @author PangTeen
  * @program HTLib
  * @data 2022/11/24 10:48
  */
-public interface PositionType<P extends PositionComponent> extends SimpleEntry {
+public interface PositionType<P extends PositionComponent> {
 
     /**
      * Get the method to codec placement.

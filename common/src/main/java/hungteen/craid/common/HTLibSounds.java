@@ -1,6 +1,6 @@
 package hungteen.craid.common;
 
-import hungteen.craid.api.CustomRaidAPI;
+import hungteen.craid.api.CRaidAPI;
 import hungteen.craid.common.impl.registry.HTRegistryManager;
 import hungteen.craid.common.impl.registry.HTVanillaRegistry;
 import hungteen.craid.util.helper.impl.HTLibHelper;
@@ -16,7 +16,7 @@ import java.util.function.Supplier;
  **/
 public interface HTLibSounds {
 
-    HTVanillaRegistry<SoundEvent> SOUNDS = HTRegistryManager.vanilla(Registries.SOUND_EVENT, CustomRaidAPI.id());
+    HTVanillaRegistry<SoundEvent> SOUNDS = HTRegistryManager.vanilla(Registries.SOUND_EVENT, CRaidAPI.id());
 
     Supplier<SoundEvent> PREPARE = register("prepare");
     Supplier<SoundEvent> HUGE_WAVE = register("huge_wave");

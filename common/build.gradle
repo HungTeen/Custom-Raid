@@ -6,6 +6,7 @@ plugins {
 
 version = modVersion
 var mcVersion = libs.versions.minecraft.asProvider().get()
+var htlibVersion = libs.versions.htlib.asProvider().get()
 base {
     archivesName = "${modName}-common-${mcVersion}"
 }
@@ -23,7 +24,7 @@ repositories {
 
 dependencies {
     compileOnly(libs.mixin)
-    compileOnly("hungteen.htlib:HTLib:${mcVersion}-${libs.versions.htlib.asProvider().get()}-common")
+    compileOnly("hungteen.htlib:HTLib:${mcVersion}-${htlibVersion}-common")
 }
 
 publishing {

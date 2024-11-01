@@ -1,14 +1,13 @@
 package hungteen.craid.api.raid;
 
 import com.mojang.serialization.MapCodec;
-import hungteen.craid.api.registry.SimpleEntry;
 
 /**
  * @program: HTLib
  * @author: HungTeen
  * @create: 2022-11-27 20:21
  **/
-public interface WaveType<P extends WaveComponent> extends SimpleEntry {
+public interface WaveType<P extends WaveComponent> {
 
     /**
      * Get the method to codec wave.

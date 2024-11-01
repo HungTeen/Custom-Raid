@@ -2,7 +2,7 @@ package hungteen.craid.compat.kubejs.event;
 
 import dev.latvian.mods.kubejs.level.LevelEventJS;
 import hungteen.craid.common.event.events.RaidEvent;
-import hungteen.craid.common.world.raid.AbstractRaid;
+import hungteen.craid.common.world.raid.HTRaidImpl;
 import net.minecraft.world.level.Level;
 
 /**
@@ -23,7 +23,7 @@ public class RaidDefeatedEventJS extends LevelEventJS {
         return event.getLevel();
     }
 
-    public AbstractRaid getRaid(){
+    public HTRaidImpl getRaid(){
         return event.getRaid();
     }
 }

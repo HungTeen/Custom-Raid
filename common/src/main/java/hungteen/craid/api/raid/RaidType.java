@@ -1,14 +1,13 @@
 package hungteen.craid.api.raid;
 
 import com.mojang.serialization.MapCodec;
-import hungteen.craid.api.registry.SimpleEntry;
 
 /**
  * @program: HTLib
  * @author: HungTeen
  * @create: 2022-11-27 20:48
  **/
-public interface RaidType<P extends RaidComponent> extends SimpleEntry {
+public interface RaidType<P extends RaidComponent> {
 
     /**
      * Get the method to codec raid.

@@ -15,10 +15,13 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"hungteen.htlib.HTLibFabricInitializer"
+			"hungteen.craid.CRaidFabricInitializer"
 		],
 		"client": [
 			"hungteen.htlib.client.HTLibFabricClientInitializer"
+		],
+		"cardinal-components-entity": [
+			"hungteen.craid.common.CRaidEntityComponents"
 		]
 	},
 //	"mixins": [

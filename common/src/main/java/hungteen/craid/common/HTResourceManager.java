@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import hungteen.craid.api.CustomRaidAPI;
-import hungteen.craid.platform.HTLibPlatformAPI;
+import hungteen.craid.api.CRaidAPI;
+import hungteen.craid.platform.CRaidPlatformAPI;
 import hungteen.craid.util.helper.FileHelper;
 import hungteen.craid.util.helper.impl.VanillaHelper;
 import net.minecraft.resources.ResourceLocation;
@@ -53,7 +53,7 @@ public class HTResourceManager {
         }
 
         // load assets from mods.
-        HTLibPlatformAPI.get().getModInfoList().stream().map(info -> HTLibPlatformAPI.get().getModContainer(info.getModId()))
+        CRaidPlatformAPI.get().getModInfoList().stream().map(info -> CRaidPlatformAPI.get().getModContainer(info.getModId()))
                 .filter(Optional::isPresent).map(Optional::get).forEach(mod -> {
                     if (mod.getModId().equals(VanillaHelper.get().getModID())) return; // skip minecraft.
                     FileHelper.findFiles(mod.getRootPaths(), String.format("%s/%s/%s", PACK_TYPE.getDirectory(), mod.getModId(), LOCATION), Files::exists, (path, file) -> {
@@ -62,7 +62,7 @@ public class HTResourceManager {
                             try (InputStream stream = Files.newInputStream(mod.getPath(assetPath))) {
                                 loadModel(bookId, stream, false);
                             } catch (Exception e) {
-                                CustomRaidAPI.logger().error("Failed to load book {} defined by mod {}, skipping",
+                                CRaidAPI.logger().error("Failed to load book {} defined by mod {}, skipping",
                                         bookId, mod.getModId(), e);
                             }
                         });
@@ -70,13 +70,13 @@ public class HTResourceManager {
                 });
 
         // load global assets.
-        HTLibPlatformAPI.get().getModContainer(CustomRaidAPI.id()).ifPresent(self -> {
+        CRaidPlatformAPI.get().getModContainer(CRaidAPI.id()).ifPresent(self -> {
             FileHelper.findFiles(Collections.singletonList(loadDir.toPath()), "", Files::exists, (path, file) -> {
                 return collectJson(VanillaHelper.get().getModID(), path, file, (assetPath, bookId) -> {
                     try (FileInputStream stream = new FileInputStream(file.toFile())) {
                         loadModel(bookId, stream, false);
                     } catch (Exception e) {
-                        CustomRaidAPI.logger().error("Failed to load book {} defined by external, skipping",
+                        CRaidAPI.logger().error("Failed to load book {} defined by external, skipping",
                                 bookId, e);
                     }
                 });
@@ -91,7 +91,7 @@ public class HTResourceManager {
             String bookName = relPath.substring(0, relPath.indexOf(".")); // 去掉后缀。
 
             if (bookName.contains("/")) {
-                CustomRaidAPI.logger().warn("Ignored book.json @ {}", file);
+                CRaidAPI.logger().warn("Ignored book.json @ {}", file);
                 return true;
             }
 
