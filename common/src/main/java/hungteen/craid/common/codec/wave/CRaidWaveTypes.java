@@ -12,7 +12,7 @@ import hungteen.htlib.common.impl.registry.HTRegistryManager;
  * @program HTLib
  * @data 2023/6/28 16:10
  */
-public interface HTLibWaveTypes {
+public interface CRaidWaveTypes {
 
     HTCustomRegistry<WaveType<?>> TYPES = HTRegistryManager.custom(CRaidHelper.prefix("wave_type"));
 

@@ -12,7 +12,7 @@ import hungteen.htlib.common.impl.registry.HTRegistryManager;
  * @program HTLib
  * @data 2023/6/28 16:05
  */
-public interface HTLibSpawnTypes {
+public interface CRaidSpawnTypes {
 
     HTCustomRegistry<SpawnType<?>> TYPES = HTRegistryManager.custom(CRaidHelper.prefix("spawn_type"));
 

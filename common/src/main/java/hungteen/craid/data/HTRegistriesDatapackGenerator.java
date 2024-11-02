@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
  * @create: 2024/10/23 16:13
  **/
 public class HTRegistriesDatapackGenerator extends RegistriesDatapackGenerator {
+
     private final CompletableFuture<HolderLookup.Provider> fullRegistries;
 
     public HTRegistriesDatapackGenerator(PackOutput output, CompletableFuture<RegistrySetBuilder.PatchedRegistries> registries) {

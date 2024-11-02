@@ -28,14 +28,7 @@ minecraft {
             property("forge.logging.console.level", "debug")
             property("mixin.env.remapRefMap", "true")
             property("mixin.env.refMapRemappingFile", "${project.projectDir}/build/createSrgToMcp/output.srg")
-            args("-mixin.config=${modId}.mixins.json")
-
-//            mods {
-//                modId {
-//                    source project(":common").sourceSets.main
-//                    source sourceSets.main
-//                }
-//            }
+//            args("-mixin.config=${modId}.mixins.json")
         }
 
         server {
@@ -44,14 +37,13 @@ minecraft {
             property("forge.logging.console.level", "debug")
             property("mixin.env.remapRefMap", "true")
             property("mixin.env.refMapRemappingFile", "${project.projectDir}/build/createSrgToMcp/output.srg")
-            args("-mixin.config=${modId}.mixins.json")
+//            args("-mixin.config=${modId}.mixins.json")
+        }
 
-//            mods {
-//                modId {
-//                    source project(":common").sourceSets.main
-//                    source sourceSets.main
-//                }
-//            }
+        data {
+            workingDirectory project.file('run-data')
+
+            args '--mod', modId, '--all', '--output', project(":common").file('src/generated/resources/')
         }
     }
 }
@@ -71,14 +63,21 @@ dependencies {
     // Hack fix for now, force jopt-simple to be exactly 5.0.4 because Mojang ships that version, but some transtive dependencies request 6.0+
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 
-    compileOnly("hungteen.htlib:HTLib:${mcVersion}-${htlibVersion}-forge")
+    implementation("hungteen.htlib:HTLib:${mcVersion}-${htlibVersion}-forge")
 
 }
 
-mixin {
-    add sourceSets.main, "${modId}.refmap.json"
-    config "${modId}.mixins.json"
+configurations.configureEach {
+    resolutionStrategy {
+        force 'net.sf.jopt-simple:jopt-simple:5.0.4'
+    }
 }
+
+
+//mixin {
+//    add sourceSets.main, "${modId}.refmap.json"
+//    config "${modId}.mixins.json"
+//}
 
 compileJava {
     source(project(":common").sourceSets.main.allSource)

@@ -2,16 +2,15 @@ package hungteen.craid.common.codec.wave;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import hungteen.craid.api.CRaidHelper;
 import hungteen.craid.api.raid.PositionComponent;
 import hungteen.craid.api.raid.SpawnComponent;
 import hungteen.craid.api.raid.WaveComponent;
 import hungteen.craid.api.raid.WaveType;
-import hungteen.craid.common.codec.position.HTLibPositionComponents;
-import hungteen.craid.common.codec.spawn.HTLibSpawnComponents;
-import hungteen.craid.api.CRaidHelper;
+import hungteen.craid.common.codec.position.CRaidPositionComponents;
+import hungteen.craid.common.codec.spawn.CRaidSpawnComponents;
 import hungteen.htlib.api.registry.HTCodecRegistry;
 import hungteen.htlib.common.impl.registry.HTRegistryManager;
-import hungteen.htlib.util.helper.impl.HTLibHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -28,9 +27,9 @@ import java.util.Optional;
  * @author: HungTeen
  * @create: 2022-11-28 23:32
  **/
-public interface HTLibWaveComponents {
+public interface CRaidWaveComponents {
 
-    HTCodecRegistry<WaveComponent> WAVES = HTRegistryManager.codec(CRaidHelper.prefix("wave"), HTLibWaveComponents::getDirectCodec);
+    HTCodecRegistry<WaveComponent> WAVES = HTRegistryManager.codec(CRaidHelper.prefix("wave"), CRaidWaveComponents::getDirectCodec);
 
     ResourceKey<WaveComponent> TEST_1 = create("test_1");
     ResourceKey<WaveComponent> TEST_2 = create("test_2");
@@ -39,37 +38,37 @@ public interface HTLibWaveComponents {
     ResourceKey<WaveComponent> COMMON_WAVE_3 = create("common_wave_3");
 
     static void register(BootstrapContext<WaveComponent> context) {
-        final HolderGetter<SpawnComponent> spawns = HTLibSpawnComponents.registry().helper().lookup(context);
-        final HolderGetter<PositionComponent> positions = HTLibPositionComponents.registry().helper().lookup(context);
-        final Holder<SpawnComponent> creeperSpawns = spawns.getOrThrow(HTLibSpawnComponents.CREEPER_4_8);
-        final Holder<SpawnComponent> poweredCreeperSpawns = spawns.getOrThrow(HTLibSpawnComponents.POWERED_CREEPER_3_5);
-        final Holder<SpawnComponent> spiderSpawns = spawns.getOrThrow(HTLibSpawnComponents.SPIDER_5);
-        final Holder<SpawnComponent> skeletonSpawns = spawns.getOrThrow(HTLibSpawnComponents.LONG_TERM_SKELETON);
-        final Holder<SpawnComponent> witherSkeletonSpawns = spawns.getOrThrow(HTLibSpawnComponents.WITHER_SKELETON);
-        final Holder<SpawnComponent> diamondZombieSpawns = spawns.getOrThrow(HTLibSpawnComponents.DIAMOND_ZOMBIE_3_6);
+        final HolderGetter<SpawnComponent> spawns = CRaidSpawnComponents.registry().helper().lookup(context);
+        final HolderGetter<PositionComponent> positions = CRaidPositionComponents.registry().helper().lookup(context);
+        final Holder<SpawnComponent> creeperSpawns = spawns.getOrThrow(CRaidSpawnComponents.CREEPER_4_8);
+        final Holder<SpawnComponent> poweredCreeperSpawns = spawns.getOrThrow(CRaidSpawnComponents.POWERED_CREEPER_3_5);
+        final Holder<SpawnComponent> spiderSpawns = spawns.getOrThrow(CRaidSpawnComponents.SPIDER_5);
+        final Holder<SpawnComponent> skeletonSpawns = spawns.getOrThrow(CRaidSpawnComponents.LONG_TERM_SKELETON);
+        final Holder<SpawnComponent> witherSkeletonSpawns = spawns.getOrThrow(CRaidSpawnComponents.WITHER_SKELETON);
+        final Holder<SpawnComponent> diamondZombieSpawns = spawns.getOrThrow(CRaidSpawnComponents.DIAMOND_ZOMBIE_3_6);
         context.register(TEST_1, new CommonWave(
-                HTLibWaveComponents.builder().prepare(100).wave(800).skip(false)
-                        .placement(positions.getOrThrow(HTLibPositionComponents.TEST)).build(),
+                CRaidWaveComponents.builder().prepare(100).wave(800).skip(false)
+                        .placement(positions.getOrThrow(CRaidPositionComponents.TEST)).build(),
                 List.of(Pair.of(ConstantInt.of(10), creeperSpawns))
         ));
         context.register(TEST_2, new CommonWave(
-                HTLibWaveComponents.builder().prepare(100).wave(800).skip(false)
-                        .placement(positions.getOrThrow(HTLibPositionComponents.TEST)).build(),
+                CRaidWaveComponents.builder().prepare(100).wave(800).skip(false)
+                        .placement(positions.getOrThrow(CRaidPositionComponents.TEST)).build(),
                 List.of(
                         Pair.of(ConstantInt.of(10), spiderSpawns),
                         Pair.of(ConstantInt.of(100), skeletonSpawns)
                 )
         ));
         context.register(COMMON_WAVE_1, new CommonWave(
-                HTLibWaveComponents.builder().prepare(60).wave(600).skip(true)
-                        .placement(positions.getOrThrow(HTLibPositionComponents.COMMON)).build(),
+                CRaidWaveComponents.builder().prepare(60).wave(600).skip(true)
+                        .placement(positions.getOrThrow(CRaidPositionComponents.COMMON)).build(),
                 List.of(
                         Pair.of(ConstantInt.of(10), poweredCreeperSpawns)
                 )
         ));
         context.register(COMMON_WAVE_2, new CommonWave(
-                HTLibWaveComponents.builder().prepare(60).wave(1200).skip(true)
-                        .placement(positions.getOrThrow(HTLibPositionComponents.COMMON)).build(),
+                CRaidWaveComponents.builder().prepare(60).wave(1200).skip(true)
+                        .placement(positions.getOrThrow(CRaidPositionComponents.COMMON)).build(),
                 List.of(
                         Pair.of(ConstantInt.of(100), skeletonSpawns),
                         Pair.of(ConstantInt.of(300), witherSkeletonSpawns),
@@ -77,8 +76,8 @@ public interface HTLibWaveComponents {
                 )
         ));
         context.register(COMMON_WAVE_3, new CommonWave(
-                HTLibWaveComponents.builder().prepare(60).wave(1800).skip(true)
-                        .placement(positions.getOrThrow(HTLibPositionComponents.COMMON)).build(),
+                CRaidWaveComponents.builder().prepare(60).wave(1800).skip(true)
+                        .placement(positions.getOrThrow(CRaidPositionComponents.COMMON)).build(),
                 List.of(
                         Pair.of(ConstantInt.of(50), witherSkeletonSpawns),
                         Pair.of(ConstantInt.of(200), diamondZombieSpawns),
@@ -88,7 +87,7 @@ public interface HTLibWaveComponents {
     }
 
     static Codec<WaveComponent> getDirectCodec(){
-        return HTLibWaveTypes.registry().byNameCodec().dispatch(WaveComponent::getType, WaveType::codec);
+        return CRaidWaveTypes.registry().byNameCodec().dispatch(WaveComponent::getType, WaveType::codec);
     }
 
     static Codec<Holder<WaveComponent>> getCodec(){
@@ -100,7 +99,7 @@ public interface HTLibWaveComponents {
     }
 
     static ResourceKey<WaveComponent> create(String name) {
-        return registry().createKey(HTLibHelper.prefix(name));
+        return registry().createKey(CRaidHelper.prefix(name));
     }
 
     static HTCodecRegistry<WaveComponent> registry() {

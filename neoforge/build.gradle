@@ -43,7 +43,7 @@ dependencies {
     implementation(libs.neoforge)
     compileOnly(project(":common"))
 
-    compileOnly("hungteen.htlib:HTLib:${mcVersion}-${htlibVersion}-neoforge")
+    implementation("hungteen.htlib:HTLib:${mcVersion}-${htlibVersion}-neoforge")
 }
 
 tasks.named('test').configure {

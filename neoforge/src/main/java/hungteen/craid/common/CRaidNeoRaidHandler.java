@@ -2,7 +2,7 @@ package hungteen.craid.common;
 
 import hungteen.craid.api.CRaidAPI;
 import hungteen.craid.common.world.raid.DefaultRaid;
-import hungteen.craid.platform.CRaidPlatformAPI;
+import hungteen.craid.CRaidPlatformAPI;
 import hungteen.htlib.util.helper.impl.EntityHelper;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;

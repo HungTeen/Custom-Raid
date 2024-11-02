@@ -1,15 +1,13 @@
 package hungteen.craid.common.codec.result;
 
 import com.mojang.serialization.Codec;
+import hungteen.craid.api.CRaidHelper;
 import hungteen.craid.api.raid.ResultComponent;
 import hungteen.craid.api.raid.ResultType;
-import hungteen.craid.api.CRaidHelper;
 import hungteen.htlib.api.registry.HTCodecRegistry;
 import hungteen.htlib.common.impl.registry.HTRegistryManager;
-import hungteen.htlib.util.helper.impl.HTLibHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -22,13 +20,13 @@ import java.util.Optional;
  * @author: HungTeen
  * @create: 2022-12-04 09:47
  **/
-public interface HTLibResultComponents {
+public interface CRaidResultComponents {
 
-    HTCodecRegistry<ResultComponent> RESULTS = HTRegistryManager.codec(CRaidHelper.prefix("result"), HTLibResultComponents::getDirectCodec);
+    HTCodecRegistry<ResultComponent> RESULTS = HTRegistryManager.codec(CRaidHelper.prefix("result"), CRaidResultComponents::getDirectCodec);
 
     ResourceKey<ResultComponent> TEST = create("test");
     ResourceKey<ResultComponent> COMMON_FUNCTION = create("common_function");
-    ResourceKey<ResultComponent> COMMAND_FUNCTION = create("command_function");
+    ResourceKey<ResultComponent> GIVE_APPLE_COMMAND = create("give_apple_command");
 
     static void register(BootstrapContext<ResultComponent> context) {
         context.register(TEST, new ItemStackResult(
@@ -37,24 +35,24 @@ public interface HTLibResultComponents {
         ));
         context.register(COMMON_FUNCTION, new FunctionResult(
                 List.of(),
-                List.of(HTLibHelper.get().prefix("test")),
+                List.of(CRaidHelper.get().prefix("test")),
                 List.of()
         ));
-        context.register(COMMAND_FUNCTION, new CommandResult(
+        context.register(GIVE_APPLE_COMMAND, new CommandResult(
                 Optional.empty(), Optional.of("give @s apple 1"), Optional.empty()
         ));
     }
 
     static Codec<ResultComponent> getDirectCodec() {
-        return HTLibResultTypes.registry().byNameCodec().dispatch(ResultComponent::getType, ResultType::codec);
+        return CRaidResultTypes.registry().byNameCodec().dispatch(ResultComponent::getType, ResultType::codec);
     }
 
     static Codec<Holder<ResultComponent>> getCodec() {
-        return RegistryFileCodec.create(registry().getRegistryKey(), getDirectCodec());
+        return registry().getHolderCodec(getDirectCodec());
     }
 
     static ResourceKey<ResultComponent> create(String name) {
-        return registry().createKey(HTLibHelper.prefix(name));
+        return registry().createKey(CRaidHelper.prefix(name));
     }
 
     static HTCodecRegistry<ResultComponent> registry() {

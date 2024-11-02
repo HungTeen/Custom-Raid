@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import hungteen.craid.api.raid.HTRaid;
 import hungteen.craid.api.raid.SpawnComponent;
 import hungteen.craid.api.raid.WaveType;
-import hungteen.craid.common.codec.spawn.HTLibSpawnComponents;
+import hungteen.craid.common.codec.spawn.CRaidSpawnComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
@@ -29,7 +29,7 @@ public class CommonWave extends WaveComponentImpl {
      */
     public static final MapCodec<CommonWave> CODEC = RecordCodecBuilder.<CommonWave>mapCodec(instance -> instance.group(
             WaveSetting.CODEC.fieldOf("setting").forGetter(CommonWave::getWaveSetting),
-            HTLibSpawnComponents.pairCodec().listOf().fieldOf("spawns").forGetter(CommonWave::getSpawnComponents)
+            CRaidSpawnComponents.pairCodec().listOf().fieldOf("spawns").forGetter(CommonWave::getSpawnComponents)
     ).apply(instance, CommonWave::new));
 
     private final List<Pair<IntProvider, Holder<SpawnComponent>>> spawnComponents;
@@ -50,6 +50,6 @@ public class CommonWave extends WaveComponentImpl {
 
     @Override
     public WaveType<?> getType() {
-        return HTLibWaveTypes.COMMON;
+        return CRaidWaveTypes.COMMON;
     }
 }

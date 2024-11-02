@@ -1,7 +1,7 @@
 package hungteen.craid.common.codec.position;
 
 import hungteen.craid.api.raid.PositionComponent;
-import hungteen.craid.util.helper.RandomHelper;
+import hungteen.htlib.util.helper.RandomHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 

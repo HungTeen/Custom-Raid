@@ -27,7 +27,7 @@ import java.util.Optional;
  **/
 public record CommandResult(Optional<String> globalCommand, Optional<String> defenderCommand, Optional<String> raiderCommand) implements ResultComponent, CommandSource {
 
-    public static final MapCodec<CommandResult> CODEC = RecordCodecBuilder.<CommandResult>mapCodec(instance -> instance.group(
+    public static final MapCodec<CommandResult> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.optionalField("global_command", Codec.STRING, true).forGetter(CommandResult::globalCommand),
             Codec.optionalField("defender_command", Codec.STRING, true).forGetter(CommandResult::defenderCommand),
             Codec.optionalField("raider_command", Codec.STRING, true).forGetter(CommandResult::raiderCommand)
@@ -75,7 +75,7 @@ public record CommandResult(Optional<String> globalCommand, Optional<String> def
 
     @Override
     public ResultType<?> getType() {
-        return HTLibResultTypes.COMMAND;
+        return CRaidResultTypes.COMMAND;
     }
 
     @Override

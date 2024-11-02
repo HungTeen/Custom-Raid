@@ -24,19 +24,19 @@
 			"hungteen.craid.common.CRaidEntityComponents"
 		]
 	},
-//	"mixins": [
-//		"${mod_id}.mixins.json"
-//	],
 	"depends": {
    		"fabricloader": ">=${fabric_loader_version_range}",
 		"fabric-api": ">=${fabric_api_version_range}",
 		"java": ">=17",
 		"minecraft": ">=${minecraft_version}",
-		"htlib": ">=${htlib_version_range}"
+		"htlib": ">=${htlib_version}"
 	},
 	"custom": {
 		"modmenu": {
 			"badges": [ "library" ]
-		}
+		},
+		"cardinal-components": [
+			"craid:raid"
+		]
 	}
 }

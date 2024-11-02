@@ -2,15 +2,14 @@ package hungteen.craid.common.codec.spawn;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import hungteen.craid.api.CRaidHelper;
 import hungteen.craid.api.raid.PositionComponent;
 import hungteen.craid.api.raid.SpawnComponent;
 import hungteen.craid.api.raid.SpawnType;
-import hungteen.craid.common.codec.position.HTLibPositionComponents;
-import hungteen.craid.api.CRaidHelper;
+import hungteen.craid.common.codec.position.CRaidPositionComponents;
 import hungteen.htlib.api.registry.HTCodecRegistry;
 import hungteen.htlib.common.impl.registry.HTRegistryManager;
 import hungteen.htlib.util.helper.NBTHelper;
-import hungteen.htlib.util.helper.impl.HTLibHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -32,9 +31,9 @@ import java.util.Optional;
  * @author: HungTeen
  * @create: 2022-11-27 18:57
  **/
-public interface HTLibSpawnComponents {
+public interface CRaidSpawnComponents {
 
-    HTCodecRegistry<SpawnComponent> SPAWNS = HTRegistryManager.codec(CRaidHelper.prefix("spawn"), HTLibSpawnComponents::getDirectCodec);
+    HTCodecRegistry<SpawnComponent> SPAWNS = HTRegistryManager.codec(CRaidHelper.prefix("spawn"), CRaidSpawnComponents::getDirectCodec);
 
     ResourceKey<SpawnComponent> CREEPER_4_8 = create("creeper_4_8");
     ResourceKey<SpawnComponent> POWERED_CREEPER_3_5 = create("powered_creeper_3_5");
@@ -44,30 +43,30 @@ public interface HTLibSpawnComponents {
     ResourceKey<SpawnComponent> DIAMOND_ZOMBIE_3_6 = create("diamond_zombie_3_6");
 
     static void register(BootstrapContext<SpawnComponent> context) {
-        final HolderGetter<PositionComponent> positions = HTLibPositionComponents.registry().helper().lookup(context);
+        final HolderGetter<PositionComponent> positions = CRaidPositionComponents.registry().helper().lookup(context);
         context.register(CREEPER_4_8, new OnceSpawn(
-                HTLibSpawnComponents.builder().entityType(EntityType.CREEPER).build(),
+                CRaidSpawnComponents.builder().entityType(EntityType.CREEPER).build(),
                 UniformInt.of(4, 8)
         ));
         context.register(POWERED_CREEPER_3_5, new OnceSpawn(
-                HTLibSpawnComponents.builder().entityType(EntityType.CREEPER)
+                CRaidSpawnComponents.builder().entityType(EntityType.CREEPER)
                         .nbt(NBTHelper.creeperTag(true, 3, 50))
                         .build(),
                 UniformInt.of(3, 5)
         ));
         context.register(SPIDER_5, new OnceSpawn(
-                HTLibSpawnComponents.builder().entityType(EntityType.SPIDER).build(),
+                CRaidSpawnComponents.builder().entityType(EntityType.SPIDER).build(),
                 ConstantInt.of(5)
         ));
         context.register(LONG_TERM_SKELETON, new DurationSpawn(
-                HTLibSpawnComponents.builder().entityType(EntityType.SKELETON).build(),
+                CRaidSpawnComponents.builder().entityType(EntityType.SKELETON).build(),
                 400,
                 100,
                 1,
                 0
         ));
         context.register(WITHER_SKELETON, new OnceSpawn(
-                HTLibSpawnComponents.builder().entityType(EntityType.WITHER_SKELETON).placement(positions.getOrThrow(HTLibPositionComponents.TEST))
+                CRaidSpawnComponents.builder().entityType(EntityType.WITHER_SKELETON).placement(positions.getOrThrow(CRaidPositionComponents.TEST))
                         .nbt(NBTHelper.merge(
                                 NBTHelper.attributeTags(List.of(Pair.of(Attributes.MAX_HEALTH.value(), 50D))),
                                 NBTHelper.healthTag(50)
@@ -76,7 +75,7 @@ public interface HTLibSpawnComponents {
                 ConstantInt.of(1)
         ));
         context.register(DIAMOND_ZOMBIE_3_6, new OnceSpawn(
-                HTLibSpawnComponents.builder().entityType(EntityType.ZOMBIE)
+                CRaidSpawnComponents.builder().entityType(EntityType.ZOMBIE)
                         .nbt(NBTHelper.armorTag(List.of(
                                 new ItemStack(Items.DIAMOND_BOOTS),
                                 new ItemStack(Items.DIAMOND_LEGGINGS),
@@ -89,7 +88,7 @@ public interface HTLibSpawnComponents {
     }
 
     static Codec<SpawnComponent> getDirectCodec() {
-        return HTLibSpawnTypes.registry().byNameCodec().dispatch(SpawnComponent::getType, SpawnType::codec);
+        return CRaidSpawnTypes.registry().byNameCodec().dispatch(SpawnComponent::getType, SpawnType::codec);
     }
 
     static Codec<Holder<SpawnComponent>> getCodec() {
@@ -111,7 +110,7 @@ public interface HTLibSpawnComponents {
     }
 
     static ResourceKey<SpawnComponent> create(String name) {
-        return registry().createKey(HTLibHelper.prefix(name));
+        return registry().createKey(CRaidHelper.prefix(name));
     }
 
     static HTCodecRegistry<SpawnComponent> registry() {

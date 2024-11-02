@@ -20,7 +20,7 @@ import java.util.List;
  **/
 public record FunctionResult(List<ResourceLocation> globalFunctions, List<ResourceLocation> defenderFunctions, List<ResourceLocation> raiderFunctions) implements ResultComponent {
 
-    public static final MapCodec<FunctionResult> CODEC = RecordCodecBuilder.<FunctionResult>mapCodec(instance -> instance.group(
+    public static final MapCodec<FunctionResult> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceLocation.CODEC.listOf().fieldOf("global_functions").forGetter(FunctionResult::globalFunctions),
             ResourceLocation.CODEC.listOf().fieldOf("defender_functions").forGetter(FunctionResult::defenderFunctions),
             ResourceLocation.CODEC.listOf().fieldOf("raider_functions").forGetter(FunctionResult::raiderFunctions)
@@ -63,7 +63,7 @@ public record FunctionResult(List<ResourceLocation> globalFunctions, List<Resour
 
     @Override
     public ResultType<?> getType() {
-        return HTLibResultTypes.FUNCTION;
+        return CRaidResultTypes.FUNCTION;
     }
 
 }

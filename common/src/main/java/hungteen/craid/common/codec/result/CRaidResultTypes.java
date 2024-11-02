@@ -12,7 +12,7 @@ import hungteen.htlib.common.impl.registry.HTRegistryManager;
  * @program HTLib
  * @data 2023/6/28 15:47
  */
-public interface HTLibResultTypes {
+public interface CRaidResultTypes {
 
     HTCustomRegistry<ResultType<?>> TYPES = HTRegistryManager.custom(CRaidHelper.prefix("result_type"));
 

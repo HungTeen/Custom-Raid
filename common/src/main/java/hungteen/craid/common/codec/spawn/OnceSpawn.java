@@ -55,7 +55,7 @@ public class OnceSpawn extends SpawnComponentImpl {
 
     @Override
     public SpawnType<?> getType() {
-        return HTLibSpawnTypes.ONCE;
+        return CRaidSpawnTypes.ONCE;
     }
 
     public IntProvider getSpawnCount() {

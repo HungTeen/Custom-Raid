@@ -7,9 +7,9 @@ neoform = "1.21.1-20240808.144430"
 jopt-simple = "5.0.4"
 
 # Fabric
-fabric = "0.16.5"
+fabric = "0.16.4"
 fabric-range = "0.15"
-fabric-api = "0.105.0+1.21.1"
+fabric-api = "0.103.0+1.21.1"
 fabric-api-range = "0.100.0+1.21"
 
 # Forge
@@ -41,7 +41,7 @@ plugin-forge-gradle = "[6.0.24,6.2)"
 plugin-mixin = "0.7.+"
 plugin-parchment-forge-gradle = "1.+"
 plugin-neoforge-gradle = "7.0.165"
-plugin-loom = "1.7-SNAPSHOT"
+plugin-loom = "1.8-SNAPSHOT"
 plugin-vanilla-gradle = "0.2.1-SNAPSHOT"
 
 [libraries]

@@ -4,11 +4,11 @@ import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import hungteen.craid.api.CRaidAPI;
 import hungteen.craid.api.raid.*;
-import hungteen.craid.common.codec.position.HTLibPositionComponents;
-import hungteen.craid.common.codec.raid.HTLibRaidComponents;
-import hungteen.craid.common.codec.spawn.HTLibSpawnComponents;
-import hungteen.craid.common.codec.wave.HTLibWaveComponents;
-import hungteen.craid.platform.CRaidPlatformAPI;
+import hungteen.craid.common.codec.position.CRaidPositionComponents;
+import hungteen.craid.common.codec.raid.CRaidRaidComponents;
+import hungteen.craid.common.codec.spawn.CRaidSpawnComponents;
+import hungteen.craid.common.codec.wave.CRaidWaveComponents;
+import hungteen.craid.CRaidPlatformAPI;
 import hungteen.htlib.common.world.entity.DummyEntity;
 import hungteen.htlib.common.world.entity.DummyEntityType;
 import hungteen.htlib.util.helper.CodecHelper;
@@ -71,7 +71,7 @@ public abstract class HTRaidImpl extends DummyEntity implements HTRaid {
 
     public HTRaidImpl(DummyEntityType<?> dummyEntityType, ServerLevel serverLevel, Vec3 position, RaidComponent raidComponent) {
         super(dummyEntityType, serverLevel, position);
-        CodecHelper.encodeNbt(HTLibRaidComponents.getDirectCodec(), raidComponent)
+        CodecHelper.encodeNbt(CRaidRaidComponents.getDirectCodec(), raidComponent)
                 .result().filter(CompoundTag.class::isInstance).map(CompoundTag.class::cast).ifPresent(tag -> this.raidTag = tag);
     }
 
@@ -86,11 +86,11 @@ public abstract class HTRaidImpl extends DummyEntity implements HTRaid {
             this.raidTag = tag.getCompound(RAID_TAG);
         }
         if (tag.contains("WaveComponent")) {
-            HTLibWaveComponents.getDirectCodec().parse(NbtOps.INSTANCE, tag.get("WaveComponent"))
+            CRaidWaveComponents.getDirectCodec().parse(NbtOps.INSTANCE, tag.get("WaveComponent"))
                     .result().ifPresent(wave -> this.waveComponent = wave);
         }
         if (tag.contains("SpawnComponents")) {
-            HTLibSpawnComponents.pairDirectCodec().listOf().parse(NbtOps.INSTANCE, tag.get("SpawnComponents"))
+            CRaidSpawnComponents.pairDirectCodec().listOf().parse(NbtOps.INSTANCE, tag.get("SpawnComponents"))
                     .result().ifPresent(spawns -> this.spawnComponents = spawns);
         }
         if (tag.contains("Position")) {
@@ -120,9 +120,9 @@ public abstract class HTRaidImpl extends DummyEntity implements HTRaid {
     @Override
     public CompoundTag save(CompoundTag tag) {
         tag.put(RAID_TAG, this.raidTag);
-        this.getCurrentWave().flatMap(wave -> CodecHelper.encodeNbt(HTLibWaveComponents.getDirectCodec(), wave)
+        this.getCurrentWave().flatMap(wave -> CodecHelper.encodeNbt(CRaidWaveComponents.getDirectCodec(), wave)
                 .result()).ifPresent(compoundTag -> tag.put("WaveComponent", compoundTag));
-        HTLibSpawnComponents.pairDirectCodec().listOf().encodeStart(NbtOps.INSTANCE, this.getCurrentSpawns())
+        CRaidSpawnComponents.pairDirectCodec().listOf().encodeStart(NbtOps.INSTANCE, this.getCurrentSpawns())
                 .result().ifPresent(compoundTag -> tag.put("SpawnComponents", compoundTag));
         Vec3.CODEC.encodeStart(NbtOps.INSTANCE, this.position)
                 .result().ifPresent(compoundTag -> tag.put("Position", compoundTag));
@@ -617,7 +617,7 @@ public abstract class HTRaidImpl extends DummyEntity implements HTRaid {
     @Nullable
     public RaidComponent getRaidComponent() {
         if (this.raidComponent == null) {
-            CodecHelper.parse(HTLibRaidComponents.getDirectCodec(), this.raidTag)
+            CodecHelper.parse(CRaidRaidComponents.getDirectCodec(), this.raidTag)
                     .result().ifPresent(c -> this.raidComponent = c);
         }
         return this.raidComponent;
@@ -657,7 +657,7 @@ public abstract class HTRaidImpl extends DummyEntity implements HTRaid {
                     return getRaidComponent().getSpawnPlacement().get();
                 }
             }
-            return HTLibPositionComponents.DEFAULT;
+            return CRaidPositionComponents.DEFAULT;
         };
     }
 

@@ -12,7 +12,7 @@ import hungteen.htlib.common.impl.registry.HTRegistryManager;
  * @program HTLib
  * @data 2023/6/28 15:51
  */
-public interface HTLibPositionTypes {
+public interface CRaidPositionTypes {
 
     HTCustomRegistry<PositionType<?>> TYPES = HTRegistryManager.custom(CRaidHelper.prefix("position_type"));
 

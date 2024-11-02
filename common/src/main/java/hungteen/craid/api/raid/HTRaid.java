@@ -2,6 +2,8 @@ package hungteen.craid.api.raid;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Function;
 
@@ -32,4 +34,8 @@ public interface HTRaid {
     Function<SpawnComponent, PositionComponent> getPlaceComponent();
 
     int getEntityID();
+
+    Vec3 getPosition();
+
+    Level getLevel();
 }

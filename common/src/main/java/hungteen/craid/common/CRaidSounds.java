@@ -1,9 +1,9 @@
 package hungteen.craid.common;
 
 import hungteen.craid.api.CRaidAPI;
-import hungteen.craid.common.impl.registry.HTRegistryManager;
-import hungteen.craid.common.impl.registry.HTVanillaRegistry;
-import hungteen.craid.util.helper.impl.HTLibHelper;
+import hungteen.htlib.common.impl.registry.HTRegistryManager;
+import hungteen.htlib.common.impl.registry.HTVanillaRegistry;
+import hungteen.htlib.util.helper.impl.HTLibHelper;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 
@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  * @author: HungTeen
  * @create: 2022-12-02 09:19
  **/
-public interface HTLibSounds {
+public interface CRaidSounds {
 
     HTVanillaRegistry<SoundEvent> SOUNDS = HTRegistryManager.vanilla(Registries.SOUND_EVENT, CRaidAPI.id());
 

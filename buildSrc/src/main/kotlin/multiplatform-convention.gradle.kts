@@ -45,6 +45,7 @@ val fabricVersion = libs.get().findVersion("fabric").get()
 val fabricVersionRange = libs.get().findVersion("fabric.range").get()
 val neoforgeVersionRange = libs.get().findVersion("neoforge.range").get()
 val neoforgeLoaderVersionRange = libs.get().findVersion("neoforge.loader.range").get()
+val htlibVersion = libs.get().findVersion("htlib").get()
 val htlibVersionRange = libs.get().findVersion("htlib.range").get()
 
 tasks.withType<Jar>().configureEach {
@@ -94,6 +95,7 @@ tasks.withType<ProcessResources>().configureEach {
             "mod_logo_file" to modLogoFile,
             "neoforge_version_range" to neoforgeVersionRange,
             "neoforge_loader_range" to neoforgeLoaderVersionRange,
+            "htlib_version" to htlibVersion,
             "htlib_version_range" to htlibVersionRange
     )
 

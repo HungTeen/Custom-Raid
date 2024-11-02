@@ -1,4 +1,4 @@
-package hungteen.craid.platform;
+package hungteen.craid;
 
 import hungteen.craid.api.capability.RaidCapability;
 import hungteen.craid.common.world.raid.HTRaidImpl;

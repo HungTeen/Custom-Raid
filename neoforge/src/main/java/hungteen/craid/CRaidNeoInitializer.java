@@ -1,6 +1,8 @@
 package hungteen.craid;
 
 import hungteen.craid.api.CRaidAPI;
+import hungteen.craid.common.CRaidDummyEntities;
+import hungteen.craid.common.CRaidSounds;
 import hungteen.craid.common.attachment.CRaidAttachments;
 import hungteen.craid.common.codec.CRaidCodecRegistryHandler;
 import net.neoforged.bus.api.IEventBus;
@@ -18,6 +20,13 @@ public class CRaidNeoInitializer {
         /* Forge Bus Events */
         IEventBus forgeBus = NeoForge.EVENT_BUS;
 
+        // Vanilla Registry.
+        CRaidSounds.registry().initialize();
+
+        // Custom Registry.
+        CRaidDummyEntities.initialize();
+
+        // Codec Registry.
         CRaidCodecRegistryHandler.initialize();
     }
 

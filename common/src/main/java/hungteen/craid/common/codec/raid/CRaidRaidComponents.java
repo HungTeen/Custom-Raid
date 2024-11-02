@@ -1,15 +1,14 @@
 package hungteen.craid.common.codec.raid;
 
 import com.mojang.serialization.Codec;
-import hungteen.craid.api.raid.*;
-import hungteen.craid.common.codec.result.HTLibResultComponents;
-import hungteen.craid.common.codec.wave.HTLibWaveComponents;
-import hungteen.craid.common.world.raid.HTRaidImpl;
 import hungteen.craid.api.CRaidHelper;
+import hungteen.craid.api.raid.*;
+import hungteen.craid.common.codec.result.CRaidResultComponents;
+import hungteen.craid.common.codec.wave.CRaidWaveComponents;
+import hungteen.craid.common.world.raid.HTRaidImpl;
 import hungteen.htlib.api.registry.HTCodecRegistry;
 import hungteen.htlib.common.impl.registry.HTRegistryManager;
 import hungteen.htlib.util.helper.ColorHelper;
-import hungteen.htlib.util.helper.impl.HTLibHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -28,22 +27,22 @@ import java.util.Optional;
  * @program HTLib
  * @data 2022/11/18 10:37
  */
-public interface HTLibRaidComponents {
+public interface CRaidRaidComponents {
 
-    HTCodecRegistry<RaidComponent> RAIDS = HTRegistryManager.codec(CRaidHelper.get().prefix("raid"), HTLibRaidComponents::getDirectCodec);
+    HTCodecRegistry<RaidComponent> RAIDS = HTRegistryManager.codec(CRaidHelper.get().prefix("raid"), CRaidRaidComponents::getDirectCodec);
 
     ResourceKey<RaidComponent> TEST = create("test");
     ResourceKey<RaidComponent> COMMON = create("common");
 
     static void register(BootstrapContext<RaidComponent> context) {
-        final HolderGetter<ResultComponent> results = HTLibResultComponents.registry().helper().lookup(context);
-        final HolderGetter<WaveComponent> waves = HTLibWaveComponents.registry().helper().lookup(context);
+        final HolderGetter<ResultComponent> results = CRaidResultComponents.registry().helper().lookup(context);
+        final HolderGetter<WaveComponent> waves = CRaidWaveComponents.registry().helper().lookup(context);
         context.register(TEST, new CommonRaid(
                 builder()
                         .blockInside(false)
                         .blockOutside(false)
                         .renderBorder(false)
-                        .victoryResult(results.getOrThrow(HTLibResultComponents.TEST))
+                        .victoryResult(results.getOrThrow(CRaidResultComponents.TEST))
                         .color(BossEvent.BossBarColor.BLUE)
 //                        .raidSound(HTLibSounds.PREPARE.getHolder())
 //                        .waveSound(HTLibSounds.HUGE_WAVE.getHolder())
@@ -51,8 +50,8 @@ public interface HTLibRaidComponents {
 //                        .lossSound(HTLibSounds.LOSS.getHolder())
                         .build(),
                 Arrays.asList(
-                        waves.getOrThrow(HTLibWaveComponents.TEST_1),
-                        waves.getOrThrow(HTLibWaveComponents.TEST_2)
+                        waves.getOrThrow(CRaidWaveComponents.TEST_1),
+                        waves.getOrThrow(CRaidWaveComponents.TEST_2)
                 )
         ));
         context.register(COMMON, new CommonRaid(
@@ -60,8 +59,8 @@ public interface HTLibRaidComponents {
                         .blockInside(true)
                         .blockOutside(true)
                         .renderBorder(true)
-                        .victoryResult(results.getOrThrow(HTLibResultComponents.COMMON_FUNCTION))
-                        .victoryResult(results.getOrThrow(HTLibResultComponents.COMMAND_FUNCTION))
+                        .victoryResult(results.getOrThrow(CRaidResultComponents.COMMON_FUNCTION))
+                        .victoryResult(results.getOrThrow(CRaidResultComponents.GIVE_APPLE_COMMAND))
                         .color(BossEvent.BossBarColor.RED)
 //                        .raidSound(HTLibSounds.PREPARE.getHolder())
 //                        .waveSound(HTLibSounds.HUGE_WAVE.getHolder())
@@ -69,15 +68,15 @@ public interface HTLibRaidComponents {
 //                        .lossSound(HTLibSounds.LOSS.getHolder())
                         .build(),
                 Arrays.asList(
-                        waves.getOrThrow(HTLibWaveComponents.COMMON_WAVE_1),
-                        waves.getOrThrow(HTLibWaveComponents.COMMON_WAVE_2),
-                        waves.getOrThrow(HTLibWaveComponents.COMMON_WAVE_3)
+                        waves.getOrThrow(CRaidWaveComponents.COMMON_WAVE_1),
+                        waves.getOrThrow(CRaidWaveComponents.COMMON_WAVE_2),
+                        waves.getOrThrow(CRaidWaveComponents.COMMON_WAVE_3)
                 )
         ));
     }
 
     static Codec<RaidComponent> getDirectCodec() {
-        return HTLibRaidTypes.registry().byNameCodec().dispatch(RaidComponent::getType, RaidType::codec);
+        return CRaidRaidTypes.registry().byNameCodec().dispatch(RaidComponent::getType, RaidType::codec);
     }
 
     static Codec<Holder<RaidComponent>> getCodec() {
@@ -85,7 +84,7 @@ public interface HTLibRaidComponents {
     }
 
     static ResourceKey<RaidComponent> create(String name) {
-        return registry().createKey(HTLibHelper.prefix(name));
+        return registry().createKey(CRaidHelper.prefix(name));
     }
 
     static HTCodecRegistry<RaidComponent> registry() {

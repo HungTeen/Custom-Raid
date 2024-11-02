@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import hungteen.craid.api.raid.HTRaid;
 import hungteen.craid.api.raid.RaidType;
 import hungteen.craid.api.raid.WaveComponent;
-import hungteen.craid.common.codec.wave.HTLibWaveComponents;
+import hungteen.craid.common.codec.wave.CRaidWaveComponents;
 import net.minecraft.core.Holder;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +20,7 @@ public class CommonRaid extends RaidComponentImpl {
 
     public static final MapCodec<CommonRaid> CODEC = RecordCodecBuilder.<CommonRaid>mapCodec(instance -> instance.group(
             RaidSetting.CODEC.fieldOf("setting").forGetter(CommonRaid::getRaidSettings),
-            HTLibWaveComponents.getCodec().listOf().fieldOf("waves").forGetter(CommonRaid::getWaveComponents)
+            CRaidWaveComponents.getCodec().listOf().fieldOf("waves").forGetter(CommonRaid::getWaveComponents)
     ).apply(instance, CommonRaid::new));
     private final List<Holder<WaveComponent>> waveComponents;
 
@@ -45,6 +45,6 @@ public class CommonRaid extends RaidComponentImpl {
 
     @Override
     public RaidType<?> getType() {
-        return HTLibRaidTypes.COMMON;
+        return CRaidRaidTypes.COMMON;
     }
 }

@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import hungteen.craid.api.raid.PositionComponent;
 import hungteen.craid.api.raid.WaveComponent;
-import hungteen.craid.common.codec.position.HTLibPositionComponents;
+import hungteen.craid.common.codec.position.CRaidPositionComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 
@@ -62,7 +62,7 @@ public abstract class WaveComponentImpl implements WaveComponent {
          * spawnCount : 生成数量，How many entities to getSpawnEntities.
          */
         public static final Codec<WaveSetting> CODEC = RecordCodecBuilder.<WaveSetting>mapCodec(instance -> instance.group(
-                Codec.optionalField("spawn_placement", HTLibPositionComponents.getCodec(), true).forGetter(WaveSetting::spawnPlacement),
+                Codec.optionalField("spawn_placement", CRaidPositionComponents.getCodec(), true).forGetter(WaveSetting::spawnPlacement),
                 Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("prepare_duration", 100).forGetter(WaveSetting::prepareDuration),
                 Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("wave_duration", 0).forGetter(WaveSetting::waveDuration),
                 Codec.BOOL.optionalFieldOf("can_skip_wave", true).forGetter(WaveSetting::canSkip),

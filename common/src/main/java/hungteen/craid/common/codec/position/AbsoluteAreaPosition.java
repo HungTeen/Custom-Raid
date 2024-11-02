@@ -44,7 +44,7 @@ public class AbsoluteAreaPosition extends PositionComponentImpl {
 
     @Override
     public PositionType<?> getType() {
-        return HTLibPositionTypes.ABSOLUTE_AREA;
+        return CRaidPositionTypes.ABSOLUTE_AREA;
     }
 
     public Vec3 getPosition() {

@@ -68,7 +68,7 @@ public class DurationSpawn extends SpawnComponentImpl {
 
     @Override
     public SpawnType<?> getType() {
-        return HTLibSpawnTypes.DURATION;
+        return CRaidSpawnTypes.DURATION;
     }
 
     public int getSpawnDuration() {

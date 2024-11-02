@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import hungteen.craid.api.raid.PositionType;
-import hungteen.craid.util.helper.WorldHelper;
+import hungteen.htlib.util.helper.WorldHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 
@@ -56,7 +56,7 @@ public class CenterAreaPosition extends PositionComponentImpl {
 
     @Override
     public PositionType<?> getType() {
-        return HTLibPositionTypes.CENTER_AREA;
+        return CRaidPositionTypes.CENTER_AREA;
     }
 
     public Vec3 getCenterOffset() {

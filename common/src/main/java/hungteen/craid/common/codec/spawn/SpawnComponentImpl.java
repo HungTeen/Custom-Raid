@@ -4,11 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import hungteen.craid.api.CRaidAPI;
 import hungteen.craid.api.raid.HTRaid;
-import hungteen.craid.api.raid.SpawnComponent;
 import hungteen.craid.api.raid.PositionComponent;
-import hungteen.craid.common.codec.position.HTLibPositionComponents;
-import hungteen.craid.util.helper.MathHelper;
-import hungteen.craid.util.helper.impl.EntityHelper;
+import hungteen.craid.api.raid.SpawnComponent;
+import hungteen.craid.common.codec.position.CRaidPositionComponents;
+import hungteen.htlib.util.helper.MathHelper;
+import hungteen.htlib.util.helper.impl.EntityHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -104,7 +104,7 @@ public abstract class SpawnComponentImpl implements SpawnComponent {
                 CompoundTag.CODEC.optionalFieldOf("nbt", new CompoundTag()).forGetter(SpawnSetting::nbt),
                 Codec.BOOL.optionalFieldOf("enable_default_spawn", true).forGetter(SpawnSetting::enableDefaultSpawn),
                 Codec.BOOL.optionalFieldOf("persist", true).forGetter(SpawnSetting::persist),
-                Codec.optionalField("spawn_placement", HTLibPositionComponents.getCodec(), true).forGetter(SpawnSetting::placeComponent)
+                Codec.optionalField("spawn_placement", CRaidPositionComponents.getCodec(), true).forGetter(SpawnSetting::placeComponent)
                 ).apply(instance, SpawnSetting::new)).codec();
     }
 

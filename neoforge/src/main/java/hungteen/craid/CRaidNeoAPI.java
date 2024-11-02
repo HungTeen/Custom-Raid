@@ -4,7 +4,6 @@ import hungteen.craid.api.capability.RaidCapability;
 import hungteen.craid.api.event.RaidEvent;
 import hungteen.craid.common.attachment.CRaidAttachments;
 import hungteen.craid.common.world.raid.HTRaidImpl;
-import hungteen.craid.platform.CRaidPlatformAPI;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForge;

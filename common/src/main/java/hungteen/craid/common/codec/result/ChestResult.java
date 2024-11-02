@@ -6,9 +6,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import hungteen.craid.api.raid.HTRaid;
 import hungteen.craid.api.raid.ResultComponent;
 import hungteen.craid.api.raid.ResultType;
-import hungteen.craid.util.helper.MathHelper;
-import hungteen.craid.util.helper.WorldHelper;
-import hungteen.craid.util.helper.impl.LootHelper;
+import hungteen.htlib.util.helper.MathHelper;
+import hungteen.htlib.util.helper.WorldHelper;
+import hungteen.htlib.util.helper.impl.LootHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -56,6 +56,6 @@ public record ChestResult(boolean forLoss, boolean forVictory, boolean onGround,
 
     @Override
     public ResultType<?> getType() {
-        return HTLibResultTypes.CHEST;
+        return CRaidResultTypes.CHEST;
     }
 }

@@ -12,7 +12,7 @@ import hungteen.htlib.common.impl.registry.HTRegistryManager;
  * @program HTLib
  * @data 2023/6/28 15:40
  */
-public interface HTLibRaidTypes {
+public interface CRaidRaidTypes {
 
     HTCustomRegistry<RaidType<?>> TYPES = HTRegistryManager.custom(CRaidHelper.get().prefix("raid_type"));
 

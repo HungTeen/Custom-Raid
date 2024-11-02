@@ -4,7 +4,7 @@ import hungteen.craid.api.CRaidAPI;
 import hungteen.craid.api.capability.RaidCapability;
 import hungteen.craid.common.capability.raid.ForgeRaidCapProvider;
 import hungteen.craid.common.world.raid.DefaultRaid;
-import hungteen.craid.platform.CRaidPlatformAPI;
+import hungteen.craid.CRaidPlatformAPI;
 import hungteen.htlib.util.helper.impl.EntityHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;

@@ -44,12 +44,17 @@ repositories {
         name = 'Ladysnake Mods'
         url = 'https://maven.ladysnake.org/releases'
     }
+    maven {
+        name = "ParchmentMC"
+        url = "https://maven.parchmentmc.net/"
+    }
 }
 
 dependencies {
     minecraft(libs.minecraft)
     mappings(loom.layered() {
         officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchment_version}@zip")
     })
     modImplementation(libs.fabric)
     modImplementation(libs.fabric.api)
@@ -59,9 +64,9 @@ dependencies {
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${ccaVersion}"
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${ccaVersion}"
 
-    compileOnly "com.demonwav.mcdev:annotations:1.0" // only to shut up compile warnings from CCA's usage of CheckEnv and Env
+    compileOnly("com.demonwav.mcdev:annotations:1.0")
 
-    compileOnly("hungteen.htlib:HTLib:${mcVersion}-${htlibVersion}-fabric")
+    modImplementation("hungteen.htlib:HTLib:${mcVersion}-${htlibVersion}-fabric")
 }
 
 compileJava {

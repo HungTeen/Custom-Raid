@@ -1,8 +1,9 @@
 package hungteen.craid;
 
-import hungteen.htlib.common.HTResourceManager;
-import hungteen.htlib.common.command.HTLibCommand;
-import hungteen.htlib.common.impl.HTLibBoatTypes;
+import hungteen.craid.common.CRaidDummyEntities;
+import hungteen.craid.common.CRaidSounds;
+import hungteen.craid.common.codec.CRaidCodecRegistryHandler;
+import hungteen.craid.common.command.CRaidCommand;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
@@ -15,15 +16,20 @@ public class CRaidFabricInitializer implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        HTLibFabricNetworkHandler.init();
-        HTLibFabricRegistryHandler.register();
-        HTResourceManager.init();
+        // Vanilla Registry.
+        CRaidSounds.registry().initialize();
 
-        HTLibBoatTypes.register();
-        HTLibFabricDummyEntityHandler.registerDummyEntityEvents();
+        // Custom Registry.
+        CRaidDummyEntities.initialize();
+
+        // Codec Registry.
+        CRaidCodecRegistryHandler.initialize();
+
 
         CommandRegistrationCallback.EVENT.register((dispatcher, context, environment) -> {
-            HTLibCommand.register(dispatcher, context);
+            CRaidCommand.register(dispatcher, context);
         });
+
+
     }
 }

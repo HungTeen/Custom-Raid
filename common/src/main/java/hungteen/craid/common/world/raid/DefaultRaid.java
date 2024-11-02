@@ -1,8 +1,8 @@
 package hungteen.craid.common.world.raid;
 
 import hungteen.craid.api.raid.RaidComponent;
-import hungteen.craid.common.world.entity.DummyEntityType;
-import hungteen.craid.common.world.entity.HTLibDummyEntities;
+import hungteen.craid.common.CRaidDummyEntities;
+import hungteen.htlib.common.world.entity.DummyEntityType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -10,7 +10,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 import java.util.*;
 
@@ -24,7 +23,7 @@ public class DefaultRaid extends HTRaidImpl {
     protected final Set<UUID> defenders = new HashSet<>();
 
     public DefaultRaid(ServerLevel serverLevel, Vec3 position, RaidComponent raidComponent) {
-        super(HTLibDummyEntities.DEFAULT_RAID, serverLevel, position, raidComponent);
+        super(CRaidDummyEntities.DEFAULT_RAID, serverLevel, position, raidComponent);
     }
 
     public DefaultRaid(DummyEntityType<?> dummyEntityType, Level level, CompoundTag tag) {
@@ -58,7 +57,7 @@ public class DefaultRaid extends HTRaidImpl {
     }
 
     /**
-     * {@link hungteen.craid.common.event.HTEntityEvents#damage(LivingDamageEvent)}
+     * 出发某个条件会将实体标记为防御者。
      */
     public void addDefender(Entity entity) {
         this.defenders.add(entity.getUUID());
