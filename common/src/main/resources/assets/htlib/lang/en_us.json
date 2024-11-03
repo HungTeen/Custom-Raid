@@ -1,20 +1,17 @@
 {
-  "entity.htlib.boat": "Boat",
-  "entity.htlib.chest_boat": "Chest Boat",
+  "raid.craid.title": "Raid",
+  "raid.craid.victory_title": "Victory",
+  "raid.craid.loss_title": "Loss",
+  "raid.craid.too_far_away": "Pls return back, or raid will be removed.",
+  "raid.craid.round": "Round %d",
 
-  "raid.htlib.title": "Raid",
-  "raid.htlib.victory_title": "Victory",
-  "raid.htlib.loss_title": "Loss",
-  "raid.htlib.too_far_away": "Pls return back, or raid will be removed.",
-  "raid.htlib.round": "Round %d",
+  "sound.craid.prepare": "Preparing",
+  "sound.craid.huge_wave": "Huge Wave",
+  "sound.craid.final_wave": "Final Wave",
+  "sound.craid.victory": "Victory",
+  "sound.craid.loss": "Loss",
+  "sound.craid.reward": "Reward",
+  "sound.craid.final_victory": "Final Victory",
 
-  "sound.htlib.prepare": "Preparing",
-  "sound.htlib.huge_wave": "Huge Wave",
-  "sound.htlib.final_wave": "Final Wave",
-  "sound.htlib.victory": "Victory",
-  "sound.htlib.loss": "Loss",
-  "sound.htlib.reward": "Reward",
-  "sound.htlib.final_victory": "Final Victory",
-
-  "command.htlib.dummy_entity.not_found": "Not Found Dummy Entity"
+  "command.craid.raid.invalid": "There is no raid with type %s"
 }

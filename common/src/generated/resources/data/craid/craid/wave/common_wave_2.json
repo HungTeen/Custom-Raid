@@ -1,0 +1,22 @@
+{
+  "type": "craid:common",
+  "setting": {
+    "prepare_duration": 60,
+    "spawn_placement": "craid:common",
+    "wave_duration": 1200
+  },
+  "spawns": [
+    {
+      "spawn": "craid:long_term_skeleton",
+      "start_tick": 100
+    },
+    {
+      "spawn": "craid:wither_skeleton",
+      "start_tick": 300
+    },
+    {
+      "spawn": "craid:wither_skeleton",
+      "start_tick": 600
+    }
+  ]
+}

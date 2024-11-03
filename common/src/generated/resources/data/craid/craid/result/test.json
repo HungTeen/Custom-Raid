@@ -1,0 +1,9 @@
+{
+  "type": "craid:item_stack",
+  "rewards": [
+    {
+      "count": 3,
+      "id": "minecraft:acacia_boat"
+    }
+  ]
+}

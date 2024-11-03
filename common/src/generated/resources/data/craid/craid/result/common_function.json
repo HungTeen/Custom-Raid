@@ -1,0 +1,8 @@
+{
+  "type": "craid:function",
+  "defender_functions": [
+    "craid:test"
+  ],
+  "global_functions": [],
+  "raider_functions": []
+}

@@ -9,16 +9,15 @@ displayName = "${mod_name}"
 displayURL = "${mod_display_url}"
 logoFile = "${mod_logo_file}"
 authors = "${mod_authors}"
-#displayTest="MATCH_VERSION" # MATCH_VERSION is the default if nothing is specified (#optional)
 description = '''${mod_description}'''
 
-#[[accessTransformers]]
-#file = "META-INF/accesstransformer.cfg"
-#
+[[accessTransformers]]
+file = "META-INF/accesstransformer-nf.cfg"
+
 #[[mixins]]
 #config = "${mod_id}.mixins.json"
 
-[[dependencies.${ mod_id }]] #optional
+[[dependencies.${ mod_id }]]
 modId = "neoforge"
 type = "required"
 versionRange = "${neo_version_range}"

@@ -1,0 +1,14 @@
+{
+  "type": "craid:once",
+  "setting": {
+    "entity_type": "minecraft:zombie",
+    "nbt": {
+      "ArmorItems": []
+    }
+  },
+  "spawn_count": {
+    "type": "minecraft:uniform",
+    "max_inclusive": 6,
+    "min_inclusive": 3
+  }
+}

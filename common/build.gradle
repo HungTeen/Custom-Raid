@@ -14,8 +14,8 @@ base {
 neoForge {
     // Look for versions on https://projects.neoforged.net/neoforged/neoform
     neoFormVersion = libs.versions.neoform.get()
-//    validateAccessTransformers = true
-//    accessTransformers.files.setFrom("src/main/resources/META-INF/accesstransformer-nf.cfg")
+    validateAccessTransformers = true
+    accessTransformers.files.setFrom("src/main/resources/META-INF/accesstransformer-nf.cfg")
 }
 
 repositories {
@@ -25,6 +25,10 @@ repositories {
 dependencies {
     compileOnly(libs.mixin)
     compileOnly("hungteen.htlib:HTLib:${mcVersion}-${htlibVersion}-common")
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
 }
 
 publishing {

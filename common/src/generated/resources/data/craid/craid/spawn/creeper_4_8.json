@@ -1,0 +1,11 @@
+{
+  "type": "craid:once",
+  "setting": {
+    "entity_type": "minecraft:creeper"
+  },
+  "spawn_count": {
+    "type": "minecraft:uniform",
+    "max_inclusive": 8,
+    "min_inclusive": 4
+  }
+}

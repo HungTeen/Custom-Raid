@@ -1,0 +1,22 @@
+{
+  "type": "craid:common",
+  "setting": {
+    "bar_setting": {
+      "raid_bar_color": "blue"
+    },
+    "border_setting": {},
+    "sound_setting": {
+      "loss_sound": "craid:loss",
+      "raid_start_sound": "craid:prepare",
+      "victory_sound": "craid:victory",
+      "wave_start_sound": "craid:huge_wave"
+    },
+    "victory_results": [
+      "craid:test"
+    ]
+  },
+  "waves": [
+    "craid:test_1",
+    "craid:test_2"
+  ]
+}

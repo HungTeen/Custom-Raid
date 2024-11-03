@@ -15,7 +15,8 @@ base {
 
 minecraft {
     mappings channel: 'official', version: libs.versions.minecraft.asProvider().get()
-//    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
+
+    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
     reobf = false
     copyIdeResources = true

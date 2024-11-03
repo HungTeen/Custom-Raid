@@ -1,0 +1,22 @@
+{
+  "type": "craid:common",
+  "setting": {
+    "prepare_duration": 60,
+    "spawn_placement": "craid:common",
+    "wave_duration": 1800
+  },
+  "spawns": [
+    {
+      "spawn": "craid:wither_skeleton",
+      "start_tick": 50
+    },
+    {
+      "spawn": "craid:diamond_zombie_3_6",
+      "start_tick": 200
+    },
+    {
+      "spawn": "craid:creeper_4_8",
+      "start_tick": 500
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "type": "craid:common",
+  "setting": {
+    "bar_setting": {},
+    "border_setting": {
+      "block_inside": true,
+      "block_outside": true,
+      "render_border": true
+    },
+    "sound_setting": {
+      "loss_sound": "craid:loss",
+      "raid_start_sound": "craid:prepare",
+      "victory_sound": "craid:victory",
+      "wave_start_sound": "craid:huge_wave"
+    },
+    "victory_results": [
+      "craid:common_function",
+      "craid:give_apple_command"
+    ]
+  },
+  "waves": [
+    "craid:common_wave_1",
+    "craid:common_wave_2",
+    "craid:common_wave_3"
+  ]
+}

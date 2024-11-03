@@ -1,0 +1,14 @@
+{
+  "type": "craid:common",
+  "setting": {
+    "can_skip_wave": false,
+    "spawn_placement": "craid:test",
+    "wave_duration": 800
+  },
+  "spawns": [
+    {
+      "spawn": "craid:creeper_4_8",
+      "start_tick": 10
+    }
+  ]
+}

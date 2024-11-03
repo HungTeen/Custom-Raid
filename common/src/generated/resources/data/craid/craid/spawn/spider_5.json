@@ -1,0 +1,7 @@
+{
+  "type": "craid:once",
+  "setting": {
+    "entity_type": "minecraft:spider"
+  },
+  "spawn_count": 5
+}

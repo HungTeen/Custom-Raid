@@ -1,0 +1,18 @@
+{
+  "type": "craid:common",
+  "setting": {
+    "can_skip_wave": false,
+    "spawn_placement": "craid:test",
+    "wave_duration": 800
+  },
+  "spawns": [
+    {
+      "spawn": "craid:spider_5",
+      "start_tick": 10
+    },
+    {
+      "spawn": "craid:long_term_skeleton",
+      "start_tick": 100
+    }
+  ]
+}

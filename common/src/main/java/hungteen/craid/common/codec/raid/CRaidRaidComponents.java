@@ -3,12 +3,15 @@ package hungteen.craid.common.codec.raid;
 import com.mojang.serialization.Codec;
 import hungteen.craid.api.CRaidHelper;
 import hungteen.craid.api.raid.*;
+import hungteen.craid.common.CRaidSounds;
 import hungteen.craid.common.codec.result.CRaidResultComponents;
 import hungteen.craid.common.codec.wave.CRaidWaveComponents;
 import hungteen.craid.common.world.raid.HTRaidImpl;
 import hungteen.htlib.api.registry.HTCodecRegistry;
+import hungteen.htlib.api.registry.HTHolder;
 import hungteen.htlib.common.impl.registry.HTRegistryManager;
 import hungteen.htlib.util.helper.ColorHelper;
+import hungteen.htlib.util.helper.impl.SoundHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -29,7 +32,10 @@ import java.util.Optional;
  */
 public interface CRaidRaidComponents {
 
-    HTCodecRegistry<RaidComponent> RAIDS = HTRegistryManager.codec(CRaidHelper.get().prefix("raid"), CRaidRaidComponents::getDirectCodec);
+    /**
+     * Require Cache for command suggestions.
+     */
+    HTCodecRegistry<RaidComponent> RAIDS = HTRegistryManager.codec(CRaidHelper.get().prefix("raid"), CRaidRaidComponents::getDirectCodec, true);
 
     ResourceKey<RaidComponent> TEST = create("test");
     ResourceKey<RaidComponent> COMMON = create("common");
@@ -37,6 +43,11 @@ public interface CRaidRaidComponents {
     static void register(BootstrapContext<RaidComponent> context) {
         final HolderGetter<ResultComponent> results = CRaidResultComponents.registry().helper().lookup(context);
         final HolderGetter<WaveComponent> waves = CRaidWaveComponents.registry().helper().lookup(context);
+        final HolderGetter<SoundEvent> sounds = SoundHelper.get().lookup(context);
+        var PVZ_PREPARE = holderOpt(sounds, CRaidSounds.PREPARE);
+        var PVZ_WAVE = holderOpt(sounds, CRaidSounds.HUGE_WAVE);
+        var PVZ_VICTORY = holderOpt(sounds, CRaidSounds.VICTORY);
+        var PVZ_LOSS = holderOpt(sounds, CRaidSounds.LOSS);
         context.register(TEST, new CommonRaid(
                 builder()
                         .blockInside(false)
@@ -44,10 +55,10 @@ public interface CRaidRaidComponents {
                         .renderBorder(false)
                         .victoryResult(results.getOrThrow(CRaidResultComponents.TEST))
                         .color(BossEvent.BossBarColor.BLUE)
-//                        .raidSound(HTLibSounds.PREPARE.getHolder())
-//                        .waveSound(HTLibSounds.HUGE_WAVE.getHolder())
-//                        .victorySound(HTLibSounds.VICTORY.getHolder())
-//                        .lossSound(HTLibSounds.LOSS.getHolder())
+                        .raidSound(PVZ_PREPARE)
+                        .waveSound(PVZ_WAVE)
+                        .victorySound(PVZ_VICTORY)
+                        .lossSound(PVZ_LOSS)
                         .build(),
                 Arrays.asList(
                         waves.getOrThrow(CRaidWaveComponents.TEST_1),
@@ -62,10 +73,10 @@ public interface CRaidRaidComponents {
                         .victoryResult(results.getOrThrow(CRaidResultComponents.COMMON_FUNCTION))
                         .victoryResult(results.getOrThrow(CRaidResultComponents.GIVE_APPLE_COMMAND))
                         .color(BossEvent.BossBarColor.RED)
-//                        .raidSound(HTLibSounds.PREPARE.getHolder())
-//                        .waveSound(HTLibSounds.HUGE_WAVE.getHolder())
-//                        .victorySound(HTLibSounds.VICTORY.getHolder())
-//                        .lossSound(HTLibSounds.LOSS.getHolder())
+                        .raidSound(PVZ_PREPARE)
+                        .waveSound(PVZ_WAVE)
+                        .victorySound(PVZ_VICTORY)
+                        .lossSound(PVZ_LOSS)
                         .build(),
                 Arrays.asList(
                         waves.getOrThrow(CRaidWaveComponents.COMMON_WAVE_1),
@@ -93,6 +104,11 @@ public interface CRaidRaidComponents {
 
     static RaidSettingBuilder builder() {
         return new RaidSettingBuilder();
+    }
+
+    static Optional<Holder<SoundEvent>> holderOpt(HolderGetter<SoundEvent> sounds, HTHolder<SoundEvent> holder) {
+//        return SoundHelper.get().getRegistry().getHolder(SoundHelper.get().createKey(holder.getRegistryName())).map(l -> (Holder<SoundEvent>) l);
+        return sounds.get(SoundHelper.get().createKey(holder.getRegistryName())).map(l -> (Holder<SoundEvent>) l);
     }
 
     class RaidSettingBuilder {

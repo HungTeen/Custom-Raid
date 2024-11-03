@@ -1,0 +1,16 @@
+{
+  "type": "craid:once",
+  "setting": {
+    "entity_type": "minecraft:creeper",
+    "nbt": {
+      "ExplosionRadius": 3,
+      "Fuse": 50,
+      "powered": 1
+    }
+  },
+  "spawn_count": {
+    "type": "minecraft:uniform",
+    "max_inclusive": 5,
+    "min_inclusive": 3
+  }
+}

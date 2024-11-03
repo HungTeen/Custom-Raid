@@ -1,13 +1,12 @@
 package hungteen.craid.common;
 
 import hungteen.craid.api.CRaidAPI;
+import hungteen.htlib.api.registry.HTHolder;
 import hungteen.htlib.common.impl.registry.HTRegistryManager;
 import hungteen.htlib.common.impl.registry.HTVanillaRegistry;
 import hungteen.htlib.util.helper.impl.HTLibHelper;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
-
-import java.util.function.Supplier;
 
 /**
  * @program: HTLib
@@ -18,19 +17,19 @@ public interface CRaidSounds {
 
     HTVanillaRegistry<SoundEvent> SOUNDS = HTRegistryManager.vanilla(Registries.SOUND_EVENT, CRaidAPI.id());
 
-    Supplier<SoundEvent> PREPARE = register("prepare");
-    Supplier<SoundEvent> HUGE_WAVE = register("huge_wave");
-    Supplier<SoundEvent> FINAL_WAVE = register("final_wave");
-    Supplier<SoundEvent> VICTORY = register("victory");
-    Supplier<SoundEvent> LOSS = register("loss");
-    Supplier<SoundEvent> REWARD = register("reward");
-    Supplier<SoundEvent> FINAL_VICTORY = register("final_victory");
+    HTHolder<SoundEvent> PREPARE = register("prepare");
+    HTHolder<SoundEvent> HUGE_WAVE = register("huge_wave");
+    HTHolder<SoundEvent> FINAL_WAVE = register("final_wave");
+    HTHolder<SoundEvent> VICTORY = register("victory");
+    HTHolder<SoundEvent> LOSS = register("loss");
+    HTHolder<SoundEvent> REWARD = register("reward");
+    HTHolder<SoundEvent> FINAL_VICTORY = register("final_victory");
 
-    private static Supplier<SoundEvent> register(String name){
+    private static HTHolder<SoundEvent> register(String name){
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(HTLibHelper.prefix(name)));
     }
 
-    private static Supplier<SoundEvent> register(String name, float range){
+    private static HTHolder<SoundEvent> register(String name, float range){
         return SOUNDS.register(name, () -> SoundEvent.createFixedRangeEvent(HTLibHelper.prefix(name), range));
     }
 
