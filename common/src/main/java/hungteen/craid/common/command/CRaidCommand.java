@@ -36,7 +36,7 @@ import net.minecraft.world.phys.Vec3;
  **/
 public class CRaidCommand {
 
-    private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(Component.translatable("commands.summon.failed"));
+    private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(Component.translatable("command.craid.create.failed"));
     private static final SimpleCommandExceptionType INVALID_POSITION = new SimpleCommandExceptionType(Component.translatable("commands.summon.invalidPosition"));
     private static final SuggestionProvider<CommandSourceStack> ALL_CUSTOM_RAIDS = SuggestionProviders.register(CRaidHelper.prefix("all_custom_raids"), (commandContext, builder) -> {
         return SharedSuggestionProvider.suggestResource(CRaidRaidComponents.registry().getCachedKeys(), builder);
@@ -76,7 +76,7 @@ public class CRaidCommand {
         }
         final DummyEntity dummyEntity = DummyEntityManager.createDummyEntity(sourceStack.getLevel(), type.getLocation(), position, tag);
         if (dummyEntity != null) {
-            sourceStack.sendSuccess(() -> Component.translatable("commands.summon.success", dummyEntity.getEntityType().getRegistryName()), true);
+            sourceStack.sendSuccess(() -> Component.translatable("command.craid.create.success", dummyEntity.getEntityType().getRegistryName()), true);
             return 1;
         }
         throw ERROR_FAILED.create();

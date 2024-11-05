@@ -86,18 +86,22 @@ artifacts {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
+            artifactId = modName
+            version "${mcVersion}-${modVersion}-neoforge"
+            from components.java
         }
     }
+    repositories {
+        mavenLocal()
+    }
 }
-
 publishMods {
     file = jar.archiveFile
     type = (modVersionType == "STABLE" ? STABLE : BETA)
     modLoaders.add("neoforge")
     displayName.set("${modName}-${project.version} for NeoForge $mcVersion")
+
+    additionalFiles.from(apiJar.archiveFile)
 
     curseforge {
         projectId = curseProjectId
@@ -109,6 +113,8 @@ publishMods {
         clientRequired = true
         serverRequired = true
 
+        requires("${htlibCurseSlug}")
+
         changelog = rootProject.file("docs/en_us/changelog.md").text
     }
 
@@ -117,6 +123,10 @@ publishMods {
         accessToken = providers.environmentVariable("MODRINTH_API_KEY")
 
         minecraftVersions.add(mcVersion)
+
+        requires {
+            id = "${htlibModrinthId}"
+        }
 
         changelog = rootProject.file("docs/en_us/changelog.md").text
     }

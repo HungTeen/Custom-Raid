@@ -44,8 +44,8 @@ public abstract class WaveComponentImpl implements WaveComponent {
     }
 
     @Override
-    public Optional<SoundEvent> getWaveStartSound() {
-        return getWaveSetting().waveStartSound().map(Holder::value);
+    public Optional<Holder<SoundEvent>> getWaveStartSound() {
+        return getWaveSetting().waveStartSound();
     }
 
     public WaveSetting getWaveSetting() {

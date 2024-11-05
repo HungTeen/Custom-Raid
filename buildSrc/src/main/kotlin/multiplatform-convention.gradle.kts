@@ -47,6 +47,7 @@ val neoforgeVersionRange = libs.get().findVersion("neoforge.range").get()
 val neoforgeLoaderVersionRange = libs.get().findVersion("neoforge.loader.range").get()
 val htlibVersion = libs.get().findVersion("htlib").get()
 val htlibVersionRange = libs.get().findVersion("htlib.range").get()
+val ccaVersion = libs.get().findVersion("cca").get()
 
 tasks.withType<Jar>().configureEach {
     from(rootProject.file("LICENSE")) {
@@ -96,7 +97,8 @@ tasks.withType<ProcessResources>().configureEach {
             "neoforge_version_range" to neoforgeVersionRange,
             "neoforge_loader_range" to neoforgeLoaderVersionRange,
             "htlib_version" to htlibVersion,
-            "htlib_version_range" to htlibVersionRange
+            "htlib_version_range" to htlibVersionRange,
+            "cca_version" to ccaVersion
     )
 
     filesMatching(listOf("pack.mcmeta", "fabric.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml", "*.mixins.json")) {

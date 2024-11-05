@@ -13,5 +13,7 @@
   "sound.craid.reward": "奖励",
   "sound.craid.final_victory": "重大胜利",
 
-  "command.craid.raid.invalid": "无法找到该袭击组件：%s"
+  "command.craid.raid.invalid": "无法找到该袭击组件：%s",
+  "command.craid.create.failed": "创建袭击失败",
+  "command.craid.create.success": "创建袭击成功，类型为 %s"
 }

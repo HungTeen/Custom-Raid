@@ -6,6 +6,7 @@ import hungteen.craid.common.CRaidSounds;
 import hungteen.craid.common.attachment.CRaidAttachments;
 import hungteen.craid.common.codec.CRaidCodecRegistryHandler;
 import hungteen.craid.common.command.CRaidCommand;
+import hungteen.htlib.util.NeoHelper;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -26,7 +27,7 @@ public class CRaidNeoInitializer {
         });
 
         // Vanilla Registry.
-        CRaidSounds.registry().initialize();
+        NeoHelper.initRegistry(CRaidSounds.registry(), modEventBus);
 
         // Custom Registry.
         CRaidDummyEntities.initialize();
@@ -34,6 +35,5 @@ public class CRaidNeoInitializer {
         // Codec Registry.
         CRaidCodecRegistryHandler.initialize();
     }
-
 
 }

@@ -2,6 +2,7 @@ package hungteen.craid.common.codec.spawn;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import hungteen.craid.CRaidPlatformAPI;
 import hungteen.craid.api.CRaidAPI;
 import hungteen.craid.api.raid.HTRaid;
 import hungteen.craid.api.raid.PositionComponent;
@@ -15,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -49,8 +51,7 @@ public abstract class SpawnComponentImpl implements SpawnComponent {
                 CRaidAPI.logger().error("Fail to codec entity {}", this.getEntityType().toString());
             } else {
                 if (this.enableDefaultSpawn() && entity instanceof Mob mob) {
-                    // TODO finalizeSpawn
-//                    ForgeEventFactory.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.EVENT, null, null);
+                    CRaidPlatformAPI.get().onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.EVENT, null);
                 }
 
                 if(getSpawnSetting().persist()&& entity instanceof Mob mob) {

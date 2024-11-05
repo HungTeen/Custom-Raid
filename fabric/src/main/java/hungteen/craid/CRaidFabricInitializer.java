@@ -1,6 +1,7 @@
 package hungteen.craid;
 
 import hungteen.craid.common.CRaidDummyEntities;
+import hungteen.craid.common.CRaidFabricRaidHandler;
 import hungteen.craid.common.CRaidSounds;
 import hungteen.craid.common.codec.CRaidCodecRegistryHandler;
 import hungteen.craid.common.command.CRaidCommand;
@@ -29,7 +30,7 @@ public class CRaidFabricInitializer implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, context, environment) -> {
             CRaidCommand.register(dispatcher, context);
         });
-
+        CRaidFabricRaidHandler.register();
 
     }
 }

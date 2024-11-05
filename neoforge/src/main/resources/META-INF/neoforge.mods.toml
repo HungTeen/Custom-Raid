@@ -1,12 +1,13 @@
 modLoader = "javafml"
-loaderVersion = "${loader_version_range}"
+loaderVersion = "${neoforge_loader_range}"
 license = "${mod_license}"
 
 [[mods]]
 modId = "${mod_id}"
 version = "${mod_version}"
-displayName = "${mod_name}"
+displayName = "${mod_display_name}"
 displayURL = "${mod_display_url}"
+issueTrackerURL = "${mod_issue_url}"
 logoFile = "${mod_logo_file}"
 authors = "${mod_authors}"
 description = '''${mod_description}'''
@@ -14,13 +15,13 @@ description = '''${mod_description}'''
 [[accessTransformers]]
 file = "META-INF/accesstransformer-nf.cfg"
 
-#[[mixins]]
-#config = "${mod_id}.mixins.json"
+[[mixins]]
+config="${mod_id}.mixins.json"
 
 [[dependencies.${ mod_id }]]
 modId = "neoforge"
 type = "required"
-versionRange = "${neo_version_range}"
+versionRange = "${neoforge_version_range}"
 ordering = "NONE"
 side = "BOTH"
 

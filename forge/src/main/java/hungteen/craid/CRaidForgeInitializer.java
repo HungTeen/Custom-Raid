@@ -2,7 +2,6 @@ package hungteen.craid;
 
 import hungteen.craid.api.CRaidAPI;
 import hungteen.craid.common.CRaidDummyEntities;
-import hungteen.craid.common.CRaidForgeArgumentTypeInfos;
 import hungteen.craid.common.CRaidSounds;
 import hungteen.craid.common.codec.CRaidCodecRegistryHandler;
 import hungteen.craid.common.command.CRaidCommand;
@@ -26,7 +25,6 @@ public class CRaidForgeInitializer {
     public CRaidForgeInitializer(FMLJavaModLoadingContext context) {
         /* Mod Bus Events */
         IEventBus modBus = context.getModEventBus();
-        CRaidForgeArgumentTypeInfos.INFOS.register(modBus);
 
         modBus.addListener((GatherDataEvent event) -> {
             event.getGenerator().addProvider(event.includeServer(), new CRaidDatapackEntriesGen(event.getGenerator().getPackOutput(), event.getLookupProvider()));

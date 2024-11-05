@@ -117,23 +117,23 @@ public abstract class RaidComponentImpl implements RaidComponent {
     }
 
     @Override
-    public Optional<SoundEvent> getRaidStartSound() {
-        return getRaidSettings().soundSetting().raidStartSound().map(Holder::value);
+    public Optional<Holder<SoundEvent>> getRaidStartSound() {
+        return getRaidSettings().soundSetting().raidStartSound();
     }
 
     @Override
-    public Optional<SoundEvent> getWaveStartSound() {
-        return getRaidSettings().soundSetting().waveStartSound().map(Holder::value);
+    public Optional<Holder<SoundEvent>> getWaveStartSound() {
+        return getRaidSettings().soundSetting().waveStartSound();
     }
 
     @Override
-    public Optional<SoundEvent> getVictorySound() {
-        return getRaidSettings().soundSetting().victorySound().map(Holder::value);
+    public Optional<Holder<SoundEvent>> getVictorySound() {
+        return getRaidSettings().soundSetting().victorySound();
     }
 
     @Override
-    public Optional<SoundEvent> getLossSound() {
-        return getRaidSettings().soundSetting().lossSound().map(Holder::value);
+    public Optional<Holder<SoundEvent>> getLossSound() {
+        return getRaidSettings().soundSetting().lossSound();
     }
 
     protected record RaidSetting(Optional<Holder<PositionComponent>> placeComponent, BorderSetting borderSetting, BarSetting barSetting, SoundSetting soundSetting, List<Holder<ResultComponent>> victoryResults, List<Holder<ResultComponent>> lossResults, int victoryDuration, int lossDuration, boolean showRoundTitle, boolean sendRaidWarn) {

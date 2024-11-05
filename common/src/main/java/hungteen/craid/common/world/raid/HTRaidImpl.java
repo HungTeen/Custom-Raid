@@ -2,13 +2,13 @@ package hungteen.craid.common.world.raid;
 
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
+import hungteen.craid.CRaidPlatformAPI;
 import hungteen.craid.api.CRaidAPI;
 import hungteen.craid.api.raid.*;
 import hungteen.craid.common.codec.position.CRaidPositionComponents;
 import hungteen.craid.common.codec.raid.CRaidRaidComponents;
 import hungteen.craid.common.codec.spawn.CRaidSpawnComponents;
 import hungteen.craid.common.codec.wave.CRaidWaveComponents;
-import hungteen.craid.CRaidPlatformAPI;
 import hungteen.htlib.common.world.entity.DummyEntity;
 import hungteen.htlib.common.world.entity.DummyEntityType;
 import hungteen.htlib.util.helper.CodecHelper;
@@ -51,10 +51,10 @@ import java.util.function.Supplier;
 public abstract class HTRaidImpl extends DummyEntity implements HTRaid {
 
     public static final String RAID_TAG = "RaidTag";
-    public static final MutableComponent RAID_TITLE = Component.translatable("raid.htlib.title");
-    public static final MutableComponent RAID_VICTORY_TITLE = Component.translatable("raid.htlib.victory_title");
-    public static final MutableComponent RAID_LOSS_TITLE = Component.translatable("raid.htlib.loss_title");
-    public static final MutableComponent RAID_WARN = Component.translatable("raid.htlib.too_far_away").withStyle(ChatFormatting.RED);
+    public static final MutableComponent RAID_TITLE = Component.translatable("raid.craid.title");
+    public static final MutableComponent RAID_VICTORY_TITLE = Component.translatable("raid.craid.victory_title");
+    public static final MutableComponent RAID_LOSS_TITLE = Component.translatable("raid.craid.loss_title");
+    public static final MutableComponent RAID_WARN = Component.translatable("raid.craid.too_far_away").withStyle(ChatFormatting.RED);
     private final ServerBossEvent progressBar = new ServerBossEvent(RAID_TITLE, BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS);
     protected CompoundTag raidTag = new CompoundTag();
     protected RaidComponent raidComponent;
@@ -430,7 +430,7 @@ public abstract class HTRaidImpl extends DummyEntity implements HTRaid {
     }
 
     protected void sendWaveTitle(Player player) {
-        PlayerHelper.sendTitleToPlayer(player, Component.translatable("raid.htlib.round", this.currentWave + 1).withStyle(ChatFormatting.DARK_RED));
+        PlayerHelper.sendTitleToPlayer(player, Component.translatable("raid.craid.round", this.currentWave + 1).withStyle(ChatFormatting.DARK_RED));
     }
 
     /**

@@ -3,7 +3,24 @@
   "setting": {
     "entity_type": "minecraft:zombie",
     "nbt": {
-      "ArmorItems": []
+      "ArmorItems": [
+        {
+          "count": 1,
+          "id": "minecraft:diamond_boots"
+        },
+        {
+          "count": 1,
+          "id": "minecraft:diamond_leggings"
+        },
+        {
+          "count": 1,
+          "id": "minecraft:diamond_chestplate"
+        },
+        {
+          "count": 1,
+          "id": "minecraft:diamond_helmet"
+        }
+      ]
     }
   },
   "spawn_count": {

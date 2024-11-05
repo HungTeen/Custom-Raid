@@ -13,5 +13,7 @@
   "sound.craid.reward": "Reward",
   "sound.craid.final_victory": "Final Victory",
 
-  "command.craid.raid.invalid": "There is no raid with type %s"
+  "command.craid.raid.invalid": "There is no raid with type %s",
+  "command.craid.create.failed": "Create raid failed",
+  "command.craid.create.success": "Create raid success, type is %s"
 }

@@ -76,4 +76,3 @@ loom = { id = "fabric-loom", version.ref = "plugin-loom" }
 # Misc
 ideaext = { id = "org.jetbrains.gradle.plugin.idea-ext", version.ref = "plugin-idea-ext" }
 mixin = { id = "org.spongepowered.mixin", version.ref = "plugin-mixin" }
-#cca = { id = "dev.onyxstudios.cardinal-components-api", version.ref = "cca" }

@@ -1,6 +1,7 @@
 package hungteen.craid.api.raid;
 
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 
@@ -45,7 +46,7 @@ public interface WaveComponent {
      * Sound when wave starts.
      * @return Empty if no sound is available.
      */
-    Optional<SoundEvent> getWaveStartSound();
+    Optional<Holder<SoundEvent>> getWaveStartSound();
 
     /**
      * Can skip wave duration when finished.

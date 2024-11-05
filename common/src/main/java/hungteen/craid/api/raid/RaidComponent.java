@@ -1,5 +1,6 @@
 package hungteen.craid.api.raid;
 
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.BossEvent;
@@ -130,25 +131,25 @@ public interface RaidComponent {
      * Get the sound when raid start.
      * @return empty if no sound.
      */
-    Optional<SoundEvent> getRaidStartSound();
+    Optional<Holder<SoundEvent>> getRaidStartSound();
 
     /**
      * Get the sound when wave start.
      * @return empty if no sound.
      */
-    Optional<SoundEvent> getWaveStartSound();
+    Optional<Holder<SoundEvent>> getWaveStartSound();
 
     /**
      * Get the sound when victory.
      * @return empty if no sound.
      */
-    Optional<SoundEvent> getVictorySound();
+    Optional<Holder<SoundEvent>> getVictorySound();
 
     /**
      * Get the sound when loss.
      * @return empty if no sound.
      */
-    Optional<SoundEvent> getLossSound();
+    Optional<Holder<SoundEvent>> getLossSound();
 
     /**
      * Get the entityType of raid.

@@ -1,8 +1,8 @@
 package hungteen.craid.common;
 
+import hungteen.craid.CRaidPlatformAPI;
 import hungteen.craid.api.CRaidAPI;
 import hungteen.craid.common.world.raid.DefaultRaid;
-import hungteen.craid.CRaidPlatformAPI;
 import hungteen.htlib.util.helper.impl.EntityHelper;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -18,11 +18,11 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 public class CRaidNeoRaidHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void damage(LivingDamageEvent event){
-        if(EntityHelper.isServer(event.getEntity())) {
+    public static void damage(LivingDamageEvent.Post event){
+        if(EntityHelper.isServer(event.getEntity()) && event.getSource().getEntity() != null) {
             CRaidPlatformAPI.get().getRaidCap(event.getEntity()).ifPresent(capability -> {
                 if (capability.getRaid() instanceof DefaultRaid) {
-                    ((DefaultRaid) capability.getRaid()).addDefender(event.getEntity());
+                    ((DefaultRaid) capability.getRaid()).addDefender(event.getSource().getEntity());
                 }
             });
         }

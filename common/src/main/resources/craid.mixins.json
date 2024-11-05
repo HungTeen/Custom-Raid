@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "hungteen.craid.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "craid.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8.4"
+}
